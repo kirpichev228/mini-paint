@@ -2,12 +2,23 @@
   <header>
     <div class="logo">
       <h1>Mini paint</h1>
+      <ButtonSample
+        v-if="userStore.getAuthorizationStatus.value"
+        @click="modalStatus = !modalStatus"
+      >
+        Change theme
+      </ButtonSample>
+      <Transition name="modal">
+        <ThemeModal v-if="modalStatus" />
+      </Transition>
     </div>
     <ButtonSample v-if="userStore.getAuthorizationStatus.value" @click="galleryRedirect">
       Works gallery
     </ButtonSample>
     <div v-if="userStore.getAuthorizationStatus.value" class="user-area">
-      <h3 class="user-mail">sample@mail.com</h3>
+      <h3 class="user-mail">
+        {{ userStore.getUser.value.email }}
+      </h3>
       <ButtonSample @click="logOut"> Log Out </ButtonSample>
     </div>
   </header>
@@ -15,12 +26,16 @@
 
 <script setup lang="ts">
 import router from '@/router'
+import { ref } from 'vue'
 import ButtonSample from '@/components/UI/ButtonSample.vue'
+import ThemeModal from '@/components/ThemeModal.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
+
+const modalStatus = ref(false)
 
 const logOut = async () => {
   try {
@@ -46,6 +61,22 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.5s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translateY(-430px);
 }
 
 .user-area {
