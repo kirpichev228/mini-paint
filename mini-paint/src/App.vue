@@ -2,8 +2,11 @@
 import { onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import { useUserStore } from '@/stores/userStore'
+import ErrorToast from './components/ErrorToast.vue'
+import { useErrorStore } from './stores/errorStore'
 
 const userStore = useUserStore()
+const errorStore = useErrorStore()
 
 onMounted(() => {
   userStore.setUser()
@@ -14,6 +17,9 @@ onMounted(() => {
   <div class="app-wrapper">
     <NavBar />
     <RouterView />
+    <Transition name="error">
+      <ErrorToast v-if="errorStore.getErrorModalStatus.value" />
+    </Transition>
   </div>
 </template>
 
@@ -45,5 +51,15 @@ onMounted(() => {
   flex-direction: column;
   gap: 10px;
   overflow: hidden;
+}
+
+.error-enter-active,
+.error-leave-active {
+  transition: all 0.5s ease;
+}
+.error-enter-from,
+.error-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
 }
 </style>

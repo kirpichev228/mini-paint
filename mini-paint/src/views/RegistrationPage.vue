@@ -36,8 +36,10 @@ import ButtonSample from '@/components/UI/ButtonSample.vue'
 import InputSample from '@/components/UI/InputSample.vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
+import { useErrorStore } from '@/stores/errorStore'
 
 const authStore = useAuthStore()
+const errorStore = useErrorStore()
 
 interface RegisterForm {
   email: string
@@ -60,7 +62,7 @@ const register = async () => {
     await authStore.registration(registrationForm.email, registrationForm.password)
     router.push('/')
   } catch (error) {
-    console.log(error)
+    errorStore.showErrorToast(error)
   }
 }
 </script>

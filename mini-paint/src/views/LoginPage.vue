@@ -23,6 +23,7 @@ import ButtonSample from '@/components/UI/ButtonSample.vue'
 import InputSample from '@/components/UI/InputSample.vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
+import { useErrorStore } from '@/stores/errorStore'
 
 interface LoginForm {
   email: string
@@ -30,6 +31,7 @@ interface LoginForm {
 }
 
 const authStore = useAuthStore()
+const errorStore = useErrorStore()
 
 const loginForm: LoginForm = reactive({
   email: '',
@@ -41,7 +43,7 @@ const login = async () => {
     await authStore.login(loginForm.email, loginForm.password)
     router.push('/')
   } catch (error) {
-    console.log(error)
+    errorStore.showErrorToast(error)
   }
 }
 </script>

@@ -31,9 +31,11 @@ import ButtonSample from '@/components/UI/ButtonSample.vue'
 import ThemeModal from '@/components/ThemeModal.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
+import { useErrorStore } from '@/stores/errorStore'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
+const errorStore = useErrorStore()
 
 const modalStatus = ref(false)
 
@@ -42,7 +44,7 @@ const logOut = async () => {
     await authStore.logout()
     router.push('/login')
   } catch (error) {
-    console.log(error)
+    errorStore.showErrorToast(error)
   }
 }
 
