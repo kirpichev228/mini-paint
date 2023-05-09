@@ -1,7 +1,6 @@
+import { auth } from '@/firebase/index'
+import authService from '@/services/authService'
 import { createRouter, createWebHistory } from 'vue-router'
-import MainPage from '@/views/MainPage.vue'
-import LoginPage from '@/views/LoginPage.vue'
-import RegistrationPage from '@/views/RegistrationPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,19 +8,48 @@ const router = createRouter({
     {
       path: '/',
       name: 'Main',
-      component: MainPage
+      component: () => import('@/views/MainPage.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
       name: 'Login',
-      component: LoginPage
+      component: () => import('@/views/LoginPage.vue')
     },
     {
       path: '/registration',
       name: 'Registration',
-      component: RegistrationPage
+      component: () => import('@/views/RegistrationPage.vue')
     },
+    {
+      path: '/gallery',
+      name: 'Gallery',
+      component: () => import('@/views/GalleryPage.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    }
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  await authService.fetchUser()
+  if ((to.path === '/login' || to.path === '/registration') && auth.currentUser) {
+    next('/')
+    return
+  }
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await authService.fetchUser()) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -8,17 +8,16 @@
       :value="modelValue"
       @input="handleInput"
       required
-    >
+    />
   </label>
 </template>
 
 <script setup lang="ts">
-
 defineProps({
   type: String,
   length: String,
   placeholder: String,
-  modelValue: String,
+  modelValue: String
 })
 
 const emit = defineEmits(['update:modelValue'])

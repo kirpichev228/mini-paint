@@ -1,7 +1,7 @@
 <template>
-  <div class="wrapper">
+  <main class="wrapper">
     <SideBar />
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
