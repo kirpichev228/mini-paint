@@ -3,7 +3,6 @@
     <div class="logo">
       <h1>Mini paint</h1>
       <ButtonSample
-        v-if="userStore.getAuthorizationStatus.value"
         @click="modalStatus = !modalStatus"
       >
         Change theme

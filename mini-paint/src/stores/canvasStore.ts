@@ -11,7 +11,6 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     '#ff00fe',
     '#632a9f',
     '#000000',
-    '#ffffff',
     '#652700'
   ])
   const pickedColor = ref('')
