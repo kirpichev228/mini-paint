@@ -52,6 +52,7 @@ const setShadow = (event: Event): void => {
 <style scoped>
 .theme-wrapper {
   position: absolute;
+  z-index: 2;
   top: 9.3%;
   left: 11%;
   width: 200px;
