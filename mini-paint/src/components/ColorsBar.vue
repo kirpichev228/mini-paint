@@ -46,16 +46,18 @@ const setColor = (color: string) => {
 .color-item {
   width: 30px;
   height: 30px;
-  border: 1px solid var(--color-secondary);
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.3;
+  border: 1px solid var(--color-primary);
 }
 
 .color-item:hover {
+  border: 1px solid var(--color-secondary);
   opacity: 1;
 }
 
 .active {
   opacity: 1;
+  border: 1px solid var(--color-secondary);
 }
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div class="canvas-wrapper">
-    <canvas ref="canvas" width="700" height="700" @mousedown="startDrawing" @mousemove="drawLine" @mouseup="stopDrawing"></canvas>
+    <canvas
+      ref="canvas"
+      width="700"
+      height="700"
+      @mousedown="startDrawing"
+      @mousemove="drawLine"
+      @mouseup="stopDrawing"
+    ></canvas>
   </div>
 </template>
 

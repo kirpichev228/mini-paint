@@ -2,6 +2,7 @@
   <aside>
     <BrushRange />
     <ColorsBar />
+    <CustomColor />
     <FiguresBar />
   </aside>
 </template>
@@ -10,6 +11,7 @@
 import ColorsBar from '@/components/ColorsBar.vue'
 import FiguresBar from '@/components/FiguresBar.vue'
 import BrushRange from '@/components/UI/BrushRange.vue'
+import CustomColor from './UI/CustomColor.vue'
 </script>
 
 <style scoped>

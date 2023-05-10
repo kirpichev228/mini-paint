@@ -2,11 +2,7 @@
   <header>
     <div class="logo">
       <h1>Mini paint</h1>
-      <ButtonSample
-        @click="modalStatus = !modalStatus"
-      >
-        Change theme
-      </ButtonSample>
+      <ButtonSample @click="modalStatus = !modalStatus"> Change theme </ButtonSample>
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
