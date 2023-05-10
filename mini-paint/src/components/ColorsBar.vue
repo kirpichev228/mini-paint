@@ -1,23 +1,61 @@
 <template>
   <div class="colors-wrapper">
     <h3>Colors</h3>
-    <div class="color-container"></div>
+    <div class="color-container">
+      <div
+        class="color-item"
+        v-for="(color, index) in colors"
+        :key="index"
+        :style="{ background: color }"
+        @click="setColor(color)"
+        :class="{ active: pickedColor === color }"
+      ></div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCanvasStore } from '@/stores/canvasStore'
+
+const canvasStore = useCanvasStore()
+
+const colors = canvasStore.getColors
+const pickedColor = canvasStore.getPickedColor
+
+const setColor = (color: string) => {
+  canvasStore.setPickedColor(color)
+}
+</script>
 
 <style scoped>
 .colors-wrapper {
   width: 100%;
 }
 .color-container {
-  border: 1px solid var(--color-secondary);
-  padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  border: 2px solid var(--color-secondary);
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+  grid-gap: 1em;
   width: 100%;
   margin-top: 10px;
+  gap: 3px;
+  justify-items: center;
+}
+
+.color-item {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-secondary);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.color-item:hover {
+  opacity: 1;
+}
+
+.active {
+  opacity: 1;
 }
 </style>

@@ -14,8 +14,14 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     '#ffffff',
     '#652700'
   ])
+  const pickedColor = ref('')
 
   const getColors = computed(() => colors)
+  const getPickedColor = computed(() => pickedColor)
 
-  return { getColors }
+  function setPickedColor(color: string) {
+    pickedColor.value = color
+  }
+
+  return { getColors, getPickedColor, setPickedColor }
 })

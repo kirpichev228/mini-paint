@@ -1,7 +1,7 @@
 <template>
   <aside>
     asd
-    <ColorsBar />
+    <ColorsBar> </ColorsBar>
     <FiguresBar />
   </aside>
 </template>
@@ -9,6 +9,11 @@
 <script setup lang="ts">
 import ColorsBar from '@/components/ColorsBar.vue'
 import FiguresBar from '@/components/FiguresBar.vue'
+// import { useCanvasStore } from '@/stores/canvasStore';
+
+// const canvasStore = useCanvasStore()
+
+// const colors = canvasStore.getColors.value
 </script>
 
 <style scoped>
