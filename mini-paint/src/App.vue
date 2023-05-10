@@ -46,10 +46,10 @@ onMounted(() => {
   background: var(--color-background);
   width: 100vw;
   height: 100vh;
-  padding: 10px;
+  padding: var(--gap);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--gap);
   overflow: hidden;
 }
 

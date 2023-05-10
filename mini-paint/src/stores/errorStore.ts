@@ -8,12 +8,12 @@ export const useErrorStore = defineStore('errorStore', () => {
   const getErrorMessage = computed(() => errorMessage)
   const getErrorModalStatus = computed(() => errorToastStatus)
 
-  function showErrorToast (message: string) {
+  function showErrorToast(message: string) {
     errorMessage.value = message
     errorToastStatus.value = true
     setTimeout(() => {
       errorToastStatus.value = false
-    }, 5000);
+    }, 5000)
   }
 
   return { getErrorMessage, getErrorModalStatus, showErrorToast }

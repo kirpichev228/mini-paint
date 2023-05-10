@@ -11,10 +11,11 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
+      <ButtonSample v-if="userStore.getAuthorizationStatus.value" @click="galleryRedirect">
+        Works gallery
+      </ButtonSample>
     </div>
-    <ButtonSample v-if="userStore.getAuthorizationStatus.value" @click="galleryRedirect">
-      Works gallery
-    </ButtonSample>
+    <LoaderComponent v-if="loaderStore.getLoaderStatus.value" />
     <div v-if="userStore.getAuthorizationStatus.value" class="user-area">
       <h3 class="user-mail">
         {{ userStore.getUser.value.email }}
@@ -32,19 +33,25 @@ import ThemeModal from '@/components/ThemeModal.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
 import { useErrorStore } from '@/stores/errorStore'
+import { useLoaderStore } from '@/stores/loaderStore'
+import LoaderComponent from '@/components/UI/LoaderComponent.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
 const errorStore = useErrorStore()
+const loaderStore = useLoaderStore()
 
 const modalStatus = ref(false)
 
 const logOut = async () => {
   try {
+    loaderStore.setLoaderStatus()
     await authStore.logout()
     router.push('/login')
-  } catch (error) {
-    errorStore.showErrorToast(error)
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
   }
 }
 

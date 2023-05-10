@@ -11,7 +11,6 @@ const errorStore = useErrorStore()
 </script>
 
 <style scoped>
-
 .toastWrapper {
   width: 300px;
   min-height: 100px;
@@ -27,5 +26,4 @@ const errorStore = useErrorStore()
   justify-content: center;
   text-align: center;
 }
-
 </style>

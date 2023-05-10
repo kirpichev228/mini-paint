@@ -24,6 +24,7 @@ import InputSample from '@/components/UI/InputSample.vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
 import { useErrorStore } from '@/stores/errorStore'
+import { useLoaderStore } from '@/stores/loaderStore'
 
 interface LoginForm {
   email: string
@@ -32,6 +33,7 @@ interface LoginForm {
 
 const authStore = useAuthStore()
 const errorStore = useErrorStore()
+const loaderStore = useLoaderStore()
 
 const loginForm: LoginForm = reactive({
   email: '',
@@ -40,10 +42,13 @@ const loginForm: LoginForm = reactive({
 
 const login = async () => {
   try {
+    loaderStore.setLoaderStatus()
     await authStore.login(loginForm.email, loginForm.password)
     router.push('/')
-  } catch (error) {
-    errorStore.showErrorToast(error)
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
   }
 }
 </script>

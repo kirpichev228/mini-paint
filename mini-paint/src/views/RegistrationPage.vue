@@ -37,9 +37,11 @@ import InputSample from '@/components/UI/InputSample.vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
 import { useErrorStore } from '@/stores/errorStore'
+import { useLoaderStore } from '@/stores/loaderStore'
 
 const authStore = useAuthStore()
 const errorStore = useErrorStore()
+const loaderStore = useLoaderStore()
 
 interface RegisterForm {
   email: string
@@ -59,10 +61,13 @@ const isPassIncorrect = computed(
 
 const register = async () => {
   try {
+    loaderStore.setLoaderStatus()
     await authStore.registration(registrationForm.email, registrationForm.password)
     router.push('/')
-  } catch (error) {
-    errorStore.showErrorToast(error)
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
   }
 }
 </script>
