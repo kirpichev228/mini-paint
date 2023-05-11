@@ -14,7 +14,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     '#652700'
   ])
   const pickedColor = ref('')
-  const brushThickness = ref('1')
+  const brushThickness = ref(1)
 
   const getColors = computed(() => colors)
   const getPickedColor = computed(() => pickedColor)
@@ -23,7 +23,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   function setPickedColor(color: string) {
     pickedColor.value = color
   }
-  function setBrushThikness(value: string) {
+  function setBrushThikness(value: number) {
     brushThickness.value = value
   }
   function addColors(color: string) {

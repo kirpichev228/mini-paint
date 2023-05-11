@@ -81,5 +81,6 @@ function stopDrawing() {
 canvas {
   border: 1px solid var(--color-secondary);
   cursor: crosshair;
+  background: #fff;
 }
 </style>

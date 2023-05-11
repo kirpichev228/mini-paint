@@ -8,7 +8,7 @@
         max="10"
         step="0.1"
         class="number"
-        :value="brushThickness"
+        v-model="brushThickness"
         @change="setBrushThckness"
       />
     </h3>
@@ -18,7 +18,7 @@
       max="10"
       step="0.1"
       class="range"
-      :value="brushThickness"
+      v-model="brushThickness"
       @change="setBrushThckness"
     />
   </div>
@@ -33,7 +33,7 @@ const brushThickness = canvasStore.getBrushThickness
 
 const setBrushThckness = (event: Event) => {
   const target = event.target as HTMLInputElement
-  canvasStore.setBrushThikness(target.value)
+  canvasStore.setBrushThikness(Number(target.value))
 }
 </script>
 
