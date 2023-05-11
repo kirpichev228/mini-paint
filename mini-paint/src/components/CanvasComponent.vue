@@ -26,6 +26,7 @@ const endY = ref(0)
 const width = canvasStore.getBrushThickness
 const color = canvasStore.getPickedColor
 const choosenFigure = canvasStore.getChoosenFigure
+const isFilled = canvasStore.getIsFigureFilled
 
 const initializeCanvas = () => {
   if (!canvas.value) {
@@ -36,6 +37,7 @@ const initializeCanvas = () => {
     ctx.lineWidth = Number(width.value)
     ctx.lineCap = 'round'
     ctx.strokeStyle = color.value
+    ctx.fillStyle = color.value 
   }
 }
 
@@ -61,6 +63,7 @@ function drawRect(event: MouseEvent) {
     endY.value = event.offsetY
 
     ctx.strokeRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+    isFilled.value && ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
   }
 
   isDrawing.value = false
