@@ -37,7 +37,7 @@ const initializeCanvas = () => {
     ctx.lineWidth = Number(width.value)
     ctx.lineCap = 'round'
     ctx.strokeStyle = color.value
-    ctx.fillStyle = color.value 
+    ctx.fillStyle = color.value
   }
 }
 
@@ -63,7 +63,8 @@ function drawRect(event: MouseEvent) {
     endY.value = event.offsetY
 
     ctx.strokeRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
-    isFilled.value && ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+    isFilled.value &&
+      ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
   }
 
   isDrawing.value = false
@@ -86,6 +87,24 @@ function drawLine(event: MouseEvent) {
   }
 }
 
+function drawCircle(event: MouseEvent) {
+  if (!isDrawing.value || !canvas.value) {
+    return
+  }
+
+  const ctx = canvas.value.getContext('2d')
+  if (ctx) {
+    endX.value = event.offsetX
+    endY.value = event.offsetY
+
+    // ctx.arc(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value, 2*Math.PI, 2*Math.PI)
+    // isFilled.value && ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+    // https://www.w3schools.com/tags/canvas_arc.asp
+  }
+
+  isDrawing.value = false
+}
+
 function stopDrawing() {
   isDrawing.value = false
 }
@@ -98,14 +117,16 @@ const jopa2 = (event: MouseEvent) => {
   switch (choosenFigure.value) {
     case 'rectangle':
       drawRect(event)
-      break;
+      break
+    case 'circle':
+      drawCircle(event)
+      break
     default:
       stopDrawing()
-      break;
+      break
   }
 }
 </script>
-
 
 <style scoped>
 .canvas-wrapper {
@@ -122,4 +143,3 @@ canvas {
   background: #fff;
 }
 </style>
-

@@ -16,7 +16,7 @@ import CustomColor from './UI/CustomColor.vue'
 
 <style scoped>
 aside {
-  height: 100%;
+  max-height: 90vh;
   width: 20vw;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);
@@ -26,5 +26,19 @@ aside {
   justify-content: flex-start;
   gap: var(--gap);
   align-items: flex-start;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-background);
+  border-radius: 10px;
 }
 </style>
