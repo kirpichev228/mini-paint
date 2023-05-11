@@ -13,15 +13,23 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     '#000000',
     '#652700'
   ])
-  const pickedColor = ref('')
+  const figures = ref(['line', 'circle', 'rectangle', 'star', 'polygon'])
+  const pickedColor = ref('#000000')
   const brushThickness = ref(1)
+  const choosenFigure = ref('')
 
   const getColors = computed(() => colors)
+  const getFigures = computed(() => figures)
   const getPickedColor = computed(() => pickedColor)
   const getBrushThickness = computed(() => brushThickness)
+  const getChoosenFigure = computed(() => choosenFigure)
 
   function setPickedColor(color: string) {
-    pickedColor.value = color
+    if (pickedColor.value === color) {
+      pickedColor.value = '#000000'
+    } else {
+      pickedColor.value = color
+    }
   }
   function setBrushThikness(value: number) {
     brushThickness.value = value
@@ -31,13 +39,23 @@ export const useCanvasStore = defineStore('canvasStore', () => {
       colors.value.push(color)
     }
   }
+  function setFigure(figure: string) {
+    if (choosenFigure.value === figure) {
+      choosenFigure.value = ''
+    } else {
+      choosenFigure.value = figure
+    }
+  }
 
   return {
     getColors,
+    getFigures,
     getPickedColor,
     getBrushThickness,
+    getChoosenFigure,
     addColors,
     setPickedColor,
-    setBrushThikness
+    setBrushThikness,
+    setFigure
   }
 })

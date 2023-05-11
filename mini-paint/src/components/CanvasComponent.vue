@@ -5,8 +5,8 @@
       width="700"
       height="700"
       @mousedown="startDrawing"
-      @mousemove="drawLine"
-      @mouseup="stopDrawing"
+      @mousemove="jopa1"
+      @mouseup="jopa2"
     ></canvas>
   </div>
 </template>
@@ -21,8 +21,11 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 const isDrawing = ref(false)
 const startX = ref(0)
 const startY = ref(0)
+const endX = ref(0)
+const endY = ref(0)
 const width = canvasStore.getBrushThickness
 const color = canvasStore.getPickedColor
+const choosenFigure = canvasStore.getChoosenFigure
 
 const initializeCanvas = () => {
   if (!canvas.value) {
@@ -47,6 +50,22 @@ function startDrawing(event: MouseEvent) {
   startY.value = event.offsetY
 }
 
+function drawRect(event: MouseEvent) {
+  if (!isDrawing.value || !canvas.value) {
+    return
+  }
+
+  const ctx = canvas.value.getContext('2d')
+  if (ctx) {
+    endX.value = event.offsetX
+    endY.value = event.offsetY
+
+    ctx.strokeRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+  }
+
+  isDrawing.value = false
+}
+
 function drawLine(event: MouseEvent) {
   if (!isDrawing.value || !canvas.value) {
     return
@@ -67,7 +86,23 @@ function drawLine(event: MouseEvent) {
 function stopDrawing() {
   isDrawing.value = false
 }
+
+const jopa1 = (event: MouseEvent) => {
+  choosenFigure.value === '' ? drawLine(event) : null
+}
+
+const jopa2 = (event: MouseEvent) => {
+  switch (choosenFigure.value) {
+    case 'rectangle':
+      drawRect(event)
+      break;
+    default:
+      stopDrawing()
+      break;
+  }
+}
 </script>
+
 
 <style scoped>
 .canvas-wrapper {
@@ -84,3 +119,4 @@ canvas {
   background: #fff;
 }
 </style>
+

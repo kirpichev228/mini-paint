@@ -52,7 +52,6 @@ const setColor = (color: string) => {
 }
 
 .color-item:hover {
-  border: 1px solid var(--color-secondary);
   opacity: 1;
 }
 
