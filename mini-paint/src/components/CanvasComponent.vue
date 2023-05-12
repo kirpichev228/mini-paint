@@ -79,6 +79,7 @@ const drawCurve = (event: MouseEvent) => {
 }
 
 const stopDrawing = () => {
+  canvasStore.setCanvas(canvas.value)
   isDrawing.value = false
 }
 

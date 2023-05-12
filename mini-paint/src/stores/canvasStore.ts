@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 
 export const useCanvasStore = defineStore('canvasStore', () => {
   const colors = ref([
@@ -20,6 +20,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const isFigureFilled = ref(false)
   const starVertex = ref(5)
   const polygonVertex = ref(5)
+  const canvas: Ref<HTMLCanvasElement | null> = ref(null)
 
   const getColors = computed(() => colors)
   const getFigures = computed(() => figures)
@@ -61,6 +62,14 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   function setStarVertex(vertex: number) {
     starVertex.value = Math.floor(vertex)
   }
+  function setCanvas(data: HTMLCanvasElement | null) {
+    canvas.value = data
+  }
+  function clearCanvas() {
+    if (!canvas.value) return
+    const ctx = canvas.value.getContext('2d')
+    ctx && ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
+  }
 
   return {
     getColors,
@@ -77,6 +86,8 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     setFigure,
     setFillState,
     setStarVertex,
-    setPolygonVertex
+    setPolygonVertex,
+    setCanvas,
+    clearCanvas
   }
 })

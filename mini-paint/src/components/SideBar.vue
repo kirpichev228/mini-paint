@@ -4,6 +4,11 @@
     <ColorsBar />
     <CustomColor />
     <FiguresBar />
+    <ButtonSample
+      @click="canvasStore.clearCanvas"
+    >
+      Clear area
+    </ButtonSample>
     <ButtonSample> Save in gallery </ButtonSample>
   </aside>
 </template>
@@ -14,6 +19,9 @@ import FiguresBar from '@/components/FiguresBar.vue'
 import BrushRange from '@/components/UI/BrushRange.vue'
 import CustomColor from './UI/CustomColor.vue'
 import ButtonSample from './UI/ButtonSample.vue'
+import { useCanvasStore } from '@/stores/canvasStore'
+
+const canvasStore = useCanvasStore()
 </script>
 
 <style scoped>
