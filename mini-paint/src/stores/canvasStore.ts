@@ -70,6 +70,11 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     const ctx = canvas.value.getContext('2d')
     ctx && ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
   }
+  function saveCanvas() {
+    if (!canvas.value) return
+    const dataUrl = canvas.value.toDataURL('image/png')
+    return dataUrl
+  }
 
   return {
     getColors,
@@ -88,6 +93,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     setStarVertex,
     setPolygonVertex,
     setCanvas,
-    clearCanvas
+    clearCanvas,
+    saveCanvas
   }
 })

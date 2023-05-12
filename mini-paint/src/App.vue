@@ -62,4 +62,17 @@ onMounted(() => {
   opacity: 0;
   transform: translateX(50px);
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-background);
+  border-radius: 10px;
+}
 </style>

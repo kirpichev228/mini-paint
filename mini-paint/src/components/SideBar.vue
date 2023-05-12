@@ -4,12 +4,10 @@
     <ColorsBar />
     <CustomColor />
     <FiguresBar />
-    <ButtonSample
-      @click="canvasStore.clearCanvas"
-    >
+    <ButtonSample @click="canvasStore.clearCanvas">
       Clear area
     </ButtonSample>
-    <ButtonSample> Save in gallery </ButtonSample>
+    <ButtonSample @click="saveImage"> Save in gallery </ButtonSample>
   </aside>
 </template>
 
@@ -20,8 +18,32 @@ import BrushRange from '@/components/UI/BrushRange.vue'
 import CustomColor from './UI/CustomColor.vue'
 import ButtonSample from './UI/ButtonSample.vue'
 import { useCanvasStore } from '@/stores/canvasStore'
+import { useUserStore } from '@/stores/userStore'
+import type { ImageInfo } from '@/components/types/' 
+import { useLoaderStore } from '@/stores/loaderStore'
+import { useErrorStore } from '@/stores/errorStore'
 
 const canvasStore = useCanvasStore()
+const userStore = useUserStore()
+const loaderStore = useLoaderStore()
+const errorStore = useErrorStore()
+
+const saveImage = async () => {
+
+  const imageData: ImageInfo = {
+    username: userStore.getUser.value.email,
+    imageURL: canvasStore.saveCanvas()
+  }
+
+  try {
+    loaderStore.setLoaderStatus()
+    await userStore.saveImage(imageData)
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
+  }
+}
 </script>
 
 <style scoped>
@@ -37,18 +59,5 @@ aside {
   gap: var(--gap);
   align-items: flex-start;
   overflow-y: scroll;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-background);
-  border-radius: 10px;
 }
 </style>

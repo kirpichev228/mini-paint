@@ -9,3 +9,8 @@ export interface FigureCoordinates {
   endX: number
   endY: number
 }
+
+export interface ImageInfo {
+  username: string,
+  imageURL: string | undefined
+}

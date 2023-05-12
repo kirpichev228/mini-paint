@@ -9,7 +9,8 @@ const firebaseConfig = {
   projectId: 'mini-paint-29694',
   storageBucket: 'mini-paint-29694.appspot.com',
   messagingSenderId: '908399605853',
-  appId: '1:908399605853:web:706f18a011dace5c2535b4'
+  appId: '1:908399605853:web:706f18a011dace5c2535b4',
+  databaseURL: 'https://mini-paint-29694-default-rtdb.europe-west1.firebasedatabase.app'
 }
 
 export const app = initializeApp(firebaseConfig)
