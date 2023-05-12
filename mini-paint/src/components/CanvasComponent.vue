@@ -88,7 +88,7 @@ function drawLine(event: MouseEvent) {
 }
 
 function drawCircle(event: MouseEvent) {
-  if (!isDrawing.value || !canvas.value) {
+  if (!canvas.value) {
     return
   }
 
@@ -97,13 +97,26 @@ function drawCircle(event: MouseEvent) {
     endX.value = event.offsetX
     endY.value = event.offsetY
 
-    // ctx.arc(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value, 2*Math.PI, 2*Math.PI)
-    // isFilled.value && ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
-    // https://www.w3schools.com/tags/canvas_arc.asp
+    const centerX = (startX.value + endX.value)/2
+    const centerY = (startY.value + endY.value)/2 
+    
+    const radius = Math.sqrt(
+      (endX.value - centerX) * (endX.value - centerX) +
+      (endY.value - centerY) * (endY.value - centerY)
+    );
+    ctx.beginPath()
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
+    ctx.stroke()
+
+    if (isFilled.value) {
+      ctx.fill();
+    }
   }
 
   isDrawing.value = false
+
 }
+
 
 function stopDrawing() {
   isDrawing.value = false
@@ -127,7 +140,9 @@ const jopa2 = (event: MouseEvent) => {
   }
 }
 </script>
-
+    // ctx.arc(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value, 2*Math.PI, 2*Math.PI)
+    // isFilled.value && ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+    // https://www.w3schools.com/tags/canvas_arc.asp
 <style scoped>
 .canvas-wrapper {
   width: 100%;
