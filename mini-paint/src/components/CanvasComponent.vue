@@ -70,7 +70,7 @@ function drawRect(event: MouseEvent) {
   isDrawing.value = false
 }
 
-function drawLine(event: MouseEvent) {
+function drawCurve(event: MouseEvent) {
   if (!isDrawing.value || !canvas.value) {
     return
   }
@@ -117,13 +117,30 @@ function drawCircle(event: MouseEvent) {
 
 }
 
+function drawLine(event: MouseEvent) {
+  if (!isDrawing.value || !canvas.value) {
+    return
+  }
+
+  const ctx = canvas.value.getContext('2d')
+  if (ctx) {
+    endX.value = event.offsetX
+    endY.value = event.offsetY
+
+    ctx.beginPath()
+    ctx.moveTo(startX.value, startY.value)
+    ctx.lineTo(endX.value, endY.value)
+    ctx.stroke()
+  }
+}
+
 
 function stopDrawing() {
   isDrawing.value = false
 }
 
 const jopa1 = (event: MouseEvent) => {
-  choosenFigure.value === '' ? drawLine(event) : null
+  choosenFigure.value === '' ? drawCurve(event) : null
 }
 
 const jopa2 = (event: MouseEvent) => {
@@ -133,6 +150,9 @@ const jopa2 = (event: MouseEvent) => {
       break
     case 'circle':
       drawCircle(event)
+      break
+    case 'line':
+      drawLine(event)
       break
     default:
       stopDrawing()
