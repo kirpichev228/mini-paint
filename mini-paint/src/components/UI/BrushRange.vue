@@ -1,7 +1,7 @@
 <template>
   <div class="brush-wrapper">
     <h3 class="heading">
-      Brush thickness:
+      Line thickness:
       <input
         type="number"
         min="1"
