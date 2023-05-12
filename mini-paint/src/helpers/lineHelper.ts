@@ -1,14 +1,8 @@
-import type { Ref } from 'vue'
+import type { FigureCoordinates } from '@/components/types'
 
-export const line = (
-  ctx: CanvasRenderingContext2D,
-  startX: Ref<number>,
-  startY: Ref<number>,
-  endX: Ref<number>,
-  endY: Ref<number>
-) => {
+export const line = (ctx: CanvasRenderingContext2D, coordinates: FigureCoordinates) => {
   ctx.beginPath()
-  ctx.moveTo(startX.value, startY.value)
-  ctx.lineTo(endX.value, endY.value)
+  ctx.moveTo(coordinates.startX, coordinates.startY)
+  ctx.lineTo(coordinates.endX, coordinates.endY)
   ctx.stroke()
 }

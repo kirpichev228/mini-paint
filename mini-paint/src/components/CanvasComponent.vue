@@ -19,6 +19,7 @@ import { circle } from '@/helpers/circleHelper'
 import { rectangle } from '@/helpers/rectangleHelper'
 import { star } from '@/helpers/starHelper'
 import { polygon } from '@/helpers/polygonHelper'
+import type { FigureCoordinates } from '@/components/types/index'
 
 const canvasStore = useCanvasStore()
 
@@ -49,7 +50,7 @@ const initializeCanvas = () => {
   }
 }
 
-function startDrawing(event: MouseEvent) {
+const startDrawing = (event: MouseEvent) => {
   initializeCanvas()
   if (!canvas.value) {
     return
@@ -60,7 +61,7 @@ function startDrawing(event: MouseEvent) {
   startY.value = event.offsetY
 }
 
-function drawCurve(event: MouseEvent) {
+const drawCurve = (event: MouseEvent) => {
   if (!isDrawing.value || !canvas.value) {
     return
   }
@@ -77,7 +78,7 @@ function drawCurve(event: MouseEvent) {
   }
 }
 
-function stopDrawing() {
+const stopDrawing = () => {
   isDrawing.value = false
 }
 
@@ -94,27 +95,34 @@ const figureDraw = (event: MouseEvent) => {
     endX.value = event.offsetX
     endY.value = event.offsetY
 
+    const coordinates: FigureCoordinates = {
+      startX: startX.value,
+      startY: startY.value,
+      endX: endX.value,
+      endY: endY.value
+    }
+
     switch (choosenFigure.value) {
       case 'rectangle':
-        rectangle(ctx, startX, startY, endX, endY, isFilled)
+        rectangle(ctx, coordinates, isFilled.value)
         break
       case 'circle':
-        circle(ctx, startX, startY, endX, endY, isFilled)
+        circle(ctx, coordinates, isFilled.value)
         break
       case 'line':
-        line(ctx, startX, startY, endX, endY)
+        line(ctx, coordinates)
         break
       case 'polygon':
-        polygon(ctx, startX, startY, endX, endY, isFilled, polygonVertex.value)
+        polygon(ctx, coordinates, isFilled.value, polygonVertex.value)
         break
       case 'square':
-        polygon(ctx, startX, startY, endX, endY, isFilled, 4)
+        polygon(ctx, coordinates, isFilled.value, 4)
         break
       case 'triangle':
-        polygon(ctx, startX, startY, endX, endY, isFilled, 3)
+        polygon(ctx, coordinates, isFilled.value, 3)
         break
       case 'star':
-        star(ctx, startX, startY, endX, endY, isFilled, starVertex.value)
+        star(ctx, coordinates, isFilled.value, starVertex.value)
         break
       default:
         stopDrawing()

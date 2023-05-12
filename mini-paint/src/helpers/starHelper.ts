@@ -1,17 +1,14 @@
-import type { Ref } from 'vue'
+import type { FigureCoordinates } from '@/components/types'
 
 export const star = (
   ctx: CanvasRenderingContext2D,
-  startX: Ref<number>,
-  startY: Ref<number>,
-  endX: Ref<number>,
-  endY: Ref<number>,
-  isFilled: Ref<boolean>,
+  coordinates: FigureCoordinates,
+  isFilled: boolean,
   vertexAmount: number
 ) => {
-  const centerX = (startX.value + endX.value) / 2
-  const centerY = (startY.value + endY.value) / 2
-  const radius = Math.sqrt((endX.value - centerX) ** 2 + (endY.value - centerY) ** 2)
+  const centerX = (coordinates.startX + coordinates.endX) / 2
+  const centerY = (coordinates.startY + coordinates.endY) / 2
+  const radius = Math.sqrt((coordinates.endX - centerX) ** 2 + (coordinates.endY - centerY) ** 2)
   const innerRadius = radius / 2.5
 
   const points = []
@@ -32,5 +29,5 @@ export const star = (
   ctx.closePath()
   ctx.stroke()
 
-  isFilled.value && ctx.fill()
+  isFilled && ctx.fill()
 }

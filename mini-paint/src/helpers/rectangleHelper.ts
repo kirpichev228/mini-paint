@@ -1,14 +1,21 @@
-import type { Ref } from 'vue'
+import type { FigureCoordinates } from '@/components/types'
 
 export const rectangle = (
   ctx: CanvasRenderingContext2D,
-  startX: Ref<number>,
-  startY: Ref<number>,
-  endX: Ref<number>,
-  endY: Ref<number>,
-  isFilled: Ref<boolean>
+  coordinates: FigureCoordinates,
+  isFilled: boolean
 ) => {
-  ctx.strokeRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
-  isFilled.value &&
-    ctx.fillRect(startX.value, startY.value, endX.value - startX.value, endY.value - startY.value)
+  ctx.strokeRect(
+    coordinates.startX,
+    coordinates.startY,
+    coordinates.endX - coordinates.startX,
+    coordinates.endY - coordinates.startY
+  )
+  isFilled &&
+    ctx.fillRect(
+      coordinates.startX,
+      coordinates.startY,
+      coordinates.endX - coordinates.startX,
+      coordinates.endY - coordinates.startY
+    )
 }
