@@ -11,7 +11,6 @@ export const useAuthStore = defineStore('authStore', () => {
     userStore.setUser()
     userStore.setUserId(auth.currentUser?.uid)
     userStore.setAuthorizationStatus(true)
-    // console.log(user);
   }
 
   async function registration(email: string, password: string) {

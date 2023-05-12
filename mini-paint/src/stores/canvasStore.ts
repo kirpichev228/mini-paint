@@ -13,11 +13,13 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     '#000000',
     '#652700'
   ])
-  const figures = ref(['line', 'circle', 'rectangle', 'star', 'polygon'])
+  const figures = ref(['line', 'circle', 'rectangle', 'star', 'polygon', 'square', 'triangle'])
   const pickedColor = ref('#000000')
   const brushThickness = ref(1)
   const choosenFigure = ref('')
   const isFigureFilled = ref(false)
+  const starVertex = ref(5)
+  const polygonVertex = ref(5)
 
   const getColors = computed(() => colors)
   const getFigures = computed(() => figures)
@@ -25,6 +27,8 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const getBrushThickness = computed(() => brushThickness)
   const getChoosenFigure = computed(() => choosenFigure)
   const getIsFigureFilled = computed(() => isFigureFilled)
+  const getStarVertex = computed(() => starVertex)
+  const getPolygonVertex = computed(() => polygonVertex)
 
   function setPickedColor(color: string) {
     if (pickedColor.value === color) {
@@ -51,6 +55,12 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   function setFillState(state: boolean) {
     isFigureFilled.value = state
   }
+  function setPolygonVertex(vertex: number) {
+    polygonVertex.value = Math.floor(vertex)
+  }
+  function setStarVertex(vertex: number) {
+    starVertex.value = Math.floor(vertex)
+  }
 
   return {
     getColors,
@@ -59,10 +69,14 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     getBrushThickness,
     getChoosenFigure,
     getIsFigureFilled,
+    getPolygonVertex,
+    getStarVertex,
     addColors,
     setPickedColor,
     setBrushThikness,
     setFigure,
-    setFillState
+    setFillState,
+    setStarVertex,
+    setPolygonVertex
   }
 })

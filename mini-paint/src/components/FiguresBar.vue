@@ -31,6 +31,30 @@
         {{ figure }}
       </ButtonSample>
     </div>
+    <div class="vertex-container">
+      <div class="star">
+        <h4>Star vertex amount:</h4>
+        <input
+          type="number"
+          max="500"
+          min="3"
+          step="1"
+          v-model="starAmount"
+          @change="setStarVertex"
+        />
+      </div>
+      <div class="polygon">
+        <h4>Polygon vertex amount:</h4>
+        <input
+          type="number"
+          max="20"
+          min="5"
+          step="1"
+          v-model="polygonAmount"
+          @change="setPolygonVertex"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,6 +63,8 @@ import { useCanvasStore } from '@/stores/canvasStore'
 import ButtonSample from './UI/ButtonSample.vue'
 
 const canvasStore = useCanvasStore()
+const polygonAmount = canvasStore.getPolygonVertex
+const starAmount = canvasStore.getStarVertex
 const figuresList = canvasStore.getFigures
 const currentFigure = canvasStore.getChoosenFigure
 const isFigureFilled = canvasStore.getIsFigureFilled
@@ -48,6 +74,14 @@ const setFigure = (figure: string) => {
 }
 const setFillState = (state: boolean) => {
   canvasStore.setFillState(state)
+}
+const setPolygonVertex = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  canvasStore.setPolygonVertex(Number(target.value))
+}
+const setStarVertex = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  canvasStore.setStarVertex(Number(target.value))
 }
 </script>
 
@@ -69,6 +103,26 @@ const setFillState = (state: boolean) => {
 .fill {
   display: flex;
   gap: 10px;
+}
+
+.vertex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  border: none;
+  outline: none;
+  background: var(--color-primary);
+  padding-top: 3px;
+}
+
+.polygon,
+.star {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .active {
