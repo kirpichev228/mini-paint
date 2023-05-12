@@ -11,6 +11,6 @@ export interface FigureCoordinates {
 }
 
 export interface ImageInfo {
-  username: string,
+  username: string
   imageURL: string | undefined
 }

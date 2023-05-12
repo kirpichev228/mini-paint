@@ -11,8 +11,8 @@ export const useUserStore = defineStore('userStore', () => {
   const isAuthorized = ref(false)
   const user = ref()
   const userId: Ref<string | undefined> = ref('' || undefined)
-  const images: unknown[] = ref()
-// ref<{[key: number]: ImageInfo}>
+  const images: Ref<ImageInfo[] | undefined> = ref()
+  // ref<{[key: number]: ImageInfo}>
   const getUser = computed(() => user)
   const getUserId = computed(() => userId)
   const getAuthorizationStatus = computed(() => isAuthorized)
@@ -49,7 +49,6 @@ export const useUserStore = defineStore('userStore', () => {
     const result = await imageService.load()
     onValue(result, (snap) => {
       if (snap.val() !== null) {
-        console.log(snap.val());
         images.value = Object.values(snap.val())
       }
     })

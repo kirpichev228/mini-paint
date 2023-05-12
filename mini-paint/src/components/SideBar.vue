@@ -4,9 +4,7 @@
     <ColorsBar />
     <CustomColor />
     <FiguresBar />
-    <ButtonSample @click="canvasStore.clearCanvas">
-      Clear area
-    </ButtonSample>
+    <ButtonSample @click="canvasStore.clearCanvas"> Clear area </ButtonSample>
     <ButtonSample @click="saveImage"> Save in gallery </ButtonSample>
   </aside>
 </template>
@@ -19,7 +17,7 @@ import CustomColor from './UI/CustomColor.vue'
 import ButtonSample from './UI/ButtonSample.vue'
 import { useCanvasStore } from '@/stores/canvasStore'
 import { useUserStore } from '@/stores/userStore'
-import type { ImageInfo } from '@/components/types/' 
+import type { ImageInfo } from '@/components/types/'
 import { useLoaderStore } from '@/stores/loaderStore'
 import { useErrorStore } from '@/stores/errorStore'
 
@@ -29,7 +27,6 @@ const loaderStore = useLoaderStore()
 const errorStore = useErrorStore()
 
 const saveImage = async () => {
-
   const imageData: ImageInfo = {
     username: userStore.getUser.value.email,
     imageURL: canvasStore.saveCanvas()

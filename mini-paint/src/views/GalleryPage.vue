@@ -1,24 +1,43 @@
 <template>
   <main class="gallery-wrapper">
-    <h2 class="gallery-heading">Your works gallery</h2>
+    <h2 class="gallery-heading">Works gallery</h2>
+    <label>
+      Sort by user
+      <select v-model="selectedUser" @change="filterUsers">
+        <option value="">All Users</option>
+        <option v-for="(user, index) in usersList" :key="index" :value="user">{{ user }}</option>
+      </select>
+    </label>
     <div class="works-container">
-      <div class="image-container"
-        v-for="(image, index) in imageList" :key="index"
-      >
+      <div class="image-container" v-for="(image, index) in filteredImageList" :key="index">
         <h4>{{ image.username }}</h4>
-        <img :src="image.imageURL" alt="">
+        <img :src="image.imageURL" alt="" />
       </div>
-
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useUserStore } from '@/stores/userStore';
+import { onMounted, computed, ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
+
 const imageList = userStore.getImagesList
+
+const selectedUser = ref('')
+
+const usersList = computed(() => [...new Set(imageList.value?.map((obj) => obj.username))])
+const filteredImageList = computed(() => {
+  if (!selectedUser.value) {
+    return imageList.value || []
+  }
+  return (imageList.value || []).filter((image) => image.username === selectedUser.value)
+})
+
+const filterUsers = () => {
+  filteredImageList.value
+}
 
 onMounted(() => {
   userStore.getImages()
