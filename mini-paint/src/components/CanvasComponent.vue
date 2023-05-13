@@ -2,8 +2,8 @@
   <div class="canvas-wrapper">
     <canvas
       ref="canvas"
-      width="1200"
-      height="600"
+      id="my-canvas"
+
       @mousedown="startDrawing"
       @mousemove="figureCheck"
       @mouseup="figureDraw"
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useCanvasStore } from '@/stores/canvasStore'
 import { line } from '@/helpers/lineHelper'
 import { circle } from '@/helpers/circleHelper'
@@ -132,13 +132,39 @@ const figureDraw = (event: MouseEvent) => {
     stopDrawing()
   }
 }
+
+const resizeCanvas = () => {
+  if (!canvas.value) {
+    return
+  }
+  const canvass = canvas.value
+  const canvasWrapper = canvass.parentElement
+  if (!canvasWrapper) {
+    return
+  }
+  const width = canvasWrapper.clientWidth
+  const height = canvasWrapper.clientHeight
+  canvass.width = width
+  canvass.height = height
+}
+
+onMounted(() => {
+  resizeCanvas()
+})
+
+onMounted(() => {
+  window.addEventListener('resize', resizeCanvas)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', resizeCanvas)
+})
 </script>
 
 <style scoped>
 .canvas-wrapper {
   width: 100%;
   height: 90vh;
-  padding: 20px;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);
 }
