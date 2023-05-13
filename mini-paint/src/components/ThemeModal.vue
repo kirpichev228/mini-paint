@@ -26,25 +26,21 @@ const themeStore = useThemeStore()
 
 const setPrimary = (event: Event): void => {
   const target = event.target as HTMLInputElement
-  document.documentElement.style.setProperty('--color-primary', target.value)
   themeStore.setPrimaryColor(target.value)
 }
 
 const setSecondary = (event: Event): void => {
   const target = event.target as HTMLInputElement
-  document.documentElement.style.setProperty('--color-secondary', target.value)
   themeStore.setSecondaryColor(target.value)
 }
 
 const setBackground = (event: Event): void => {
   const target = event.target as HTMLInputElement
-  document.documentElement.style.setProperty('--color-background', target.value)
   themeStore.setBackgroundColor(target.value)
 }
 
 const setShadow = (event: Event): void => {
   const target = event.target as HTMLInputElement
-  document.documentElement.style.setProperty('--color-shadow', `0 0 15px ${target.value}`)
   themeStore.setShadowColor(target.value)
 }
 </script>
