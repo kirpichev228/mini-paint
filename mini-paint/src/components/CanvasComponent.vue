@@ -137,7 +137,7 @@ const figureDraw = (event: MouseEvent) => {
 <style scoped>
 .canvas-wrapper {
   width: 100%;
-  height: 100%;
+  height: 90vh;
   padding: 20px;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);

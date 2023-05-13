@@ -6,9 +6,12 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
-      <ButtonSample v-if="userStore.getAuthorizationStatus.value" @click="galleryRedirect">
-        Works gallery
-      </ButtonSample>
+      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/gallery">
+        Gallery
+      </RouterLink>
+      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/">
+        Draw page
+      </RouterLink>
     </div>
     <LoaderComponent v-if="loaderStore.getLoaderStatus.value" />
     <div v-if="userStore.getAuthorizationStatus.value" class="user-area">
@@ -49,10 +52,6 @@ const logOut = async () => {
     loaderStore.setLoaderStatus()
   }
 }
-
-const galleryRedirect = (): void => {
-  router.push('/gallery')
-}
 </script>
 
 <style scoped>
@@ -81,6 +80,10 @@ header {
 .modal-leave-to {
   opacity: 0;
   transform: translateY(-430px);
+}
+
+.link {
+  color: black;
 }
 
 .user-area {

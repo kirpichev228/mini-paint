@@ -45,7 +45,7 @@ const saveImage = async () => {
 
 <style scoped>
 aside {
-  max-height: 90vh;
+  height: 90vh;
   width: 20vw;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);

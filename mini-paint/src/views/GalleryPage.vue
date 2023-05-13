@@ -20,8 +20,12 @@
 <script setup lang="ts">
 import { onMounted, computed, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
+import { useErrorStore } from '@/stores/errorStore'
+import { useLoaderStore } from '@/stores/loaderStore'
 
 const userStore = useUserStore()
+const errorStore = useErrorStore()
+const loaderStore = useLoaderStore()
 
 const imageList = userStore.getImagesList
 
@@ -39,8 +43,19 @@ const filterUsers = () => {
   filteredImageList.value
 }
 
+const getImages = async () => {
+  try {
+    loaderStore.setLoaderStatus()
+    await userStore.getImages()
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
+  }
+}
+
 onMounted(() => {
-  userStore.getImages()
+  getImages()
 })
 </script>
 
