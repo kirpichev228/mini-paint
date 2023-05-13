@@ -58,6 +58,7 @@ const setBrushThckness = (event: Event) => {
   font-size: 19px;
   width: 45px;
   padding-top: 2px;
+  background: var(--color-primary);
 }
 
 input[type='range'] {
