@@ -69,8 +69,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     if (!canvas.value) return
     const ctx = canvas.value.getContext('2d')
     clearCanvas()
-    ctx && ctx.drawImage(img, 0, 0, canvas.value.width, canvas.value.height) 
-    
+    ctx && ctx.drawImage(img, 0, 0, canvas.value.width, canvas.value.height)
   }
   function clearCanvas() {
     if (!canvas.value) return

@@ -7,7 +7,6 @@
     <ButtonSample @click="canvasStore.clearCanvas"> Clear area </ButtonSample>
     <ButtonSample @click="saveImage"> Save in gallery </ButtonSample>
     <ButtonSample @click="loadImage">Open File</ButtonSample>
-
   </aside>
 </template>
 

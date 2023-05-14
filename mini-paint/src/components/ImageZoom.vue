@@ -1,6 +1,6 @@
 <template>
   <div class="zoom-wrapper" @click="$emit('zoomOut')">
-    <img :src="imgURL" alt="zoomimg">
+    <img :src="imgURL" alt="zoomimg" />
   </div>
 </template>
 
