@@ -1,11 +1,13 @@
 <template>
   <div class="canvas-wrapper">
+    <canvas ref="canvas" id="my-canvas"></canvas>
     <canvas
-      ref="canvas"
-      id="my-canvas"
       @mousedown="startDrawing"
       @mousemove="figureCheck"
-      @mouseup="figureDraw"
+      @mouseup="stopDrawing"
+      ref="canvasOverlay"
+      id="canvas-overlay"
+      style="position: absolute; right: 11px; background: none"
     ></canvas>
   </div>
 </template>
@@ -23,6 +25,7 @@ import type { FigureCoordinates } from '@/components/types/index'
 const canvasStore = useCanvasStore()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
+const canvasOverlay = ref<HTMLCanvasElement | null>(null)
 const isDrawing = ref(false)
 const startX = ref(0)
 const startY = ref(0)
@@ -37,21 +40,21 @@ const polygonVertex = canvasStore.getPolygonVertex
 const starVertex = canvasStore.getStarVertex
 
 const initializeCanvas = () => {
-  if (!canvas.value) {
+  if (!canvasOverlay.value) {
     return
   }
-  const ctx = canvas.value.getContext('2d')
-  if (ctx) {
-    ctx.lineWidth = Number(width.value)
-    ctx.lineCap = 'round'
-    ctx.strokeStyle = color.value
-    ctx.fillStyle = color.value
+  const ctxO = canvasOverlay.value.getContext('2d')
+  if (ctxO) {
+    ctxO.lineWidth = Number(width.value)
+    ctxO.lineCap = 'round'
+    ctxO.strokeStyle = color.value
+    ctxO.fillStyle = color.value
   }
 }
 
 const startDrawing = (event: MouseEvent) => {
   initializeCanvas()
-  if (!canvas.value) {
+  if (!canvasOverlay.value) {
     return
   }
 
@@ -61,16 +64,16 @@ const startDrawing = (event: MouseEvent) => {
 }
 
 const drawCurve = (event: MouseEvent) => {
-  if (!isDrawing.value || !canvas.value) {
+  if (!isDrawing.value || !canvasOverlay.value) {
     return
   }
 
-  const ctx = canvas.value.getContext('2d')
-  if (ctx) {
-    ctx.beginPath()
-    ctx.moveTo(startX.value, startY.value)
-    ctx.lineTo(event.offsetX, event.offsetY)
-    ctx.stroke()
+  const ctxO = canvasOverlay.value.getContext('2d')
+  if (ctxO) {
+    ctxO.beginPath()
+    ctxO.moveTo(startX.value, startY.value)
+    ctxO.lineTo(event.offsetX, event.offsetY)
+    ctxO.stroke()
 
     startX.value = event.offsetX
     startY.value = event.offsetY
@@ -78,20 +81,25 @@ const drawCurve = (event: MouseEvent) => {
 }
 
 const stopDrawing = () => {
+  const ctx = canvas.value?.getContext('2d')
+  const ctxO = canvasOverlay.value?.getContext('2d')
+
+  if (ctx && ctxO && canvasOverlay.value) {
+    ctx.drawImage(ctxO.canvas, 0, 0)
+    ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
+  }
   canvasStore.setCanvas(canvas.value)
   isDrawing.value = false
 }
 
-const figureCheck = (event: MouseEvent) => {
-  choosenFigure.value === '' ? drawCurve(event) : null
-}
-
 const figureDraw = (event: MouseEvent) => {
-  if (!canvas.value) {
+  if (!canvasOverlay.value || !isDrawing.value) {
     return
   }
-  const ctx = canvas.value.getContext('2d')
-  if (ctx) {
+
+  const ctxO = canvasOverlay.value.getContext('2d')
+  if (ctxO) {
+    ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
     endX.value = event.offsetX
     endY.value = event.offsetY
 
@@ -104,47 +112,61 @@ const figureDraw = (event: MouseEvent) => {
 
     switch (choosenFigure.value) {
       case 'rectangle':
-        rectangle(ctx, coordinates, isFilled.value)
+        rectangle(ctxO, coordinates, isFilled.value)
         break
       case 'circle':
-        circle(ctx, coordinates, isFilled.value)
+        circle(ctxO, coordinates, isFilled.value)
         break
       case 'line':
-        line(ctx, coordinates)
+        line(ctxO, coordinates)
         break
       case 'polygon':
-        polygon(ctx, coordinates, isFilled.value, polygonVertex.value)
+        polygon(ctxO, coordinates, isFilled.value, polygonVertex.value)
         break
       case 'square':
-        polygon(ctx, coordinates, isFilled.value, 4)
+        polygon(ctxO, coordinates, isFilled.value, 4)
         break
       case 'triangle':
-        polygon(ctx, coordinates, isFilled.value, 3)
+        polygon(ctxO, coordinates, isFilled.value, 3)
         break
       case 'star':
-        star(ctx, coordinates, isFilled.value, starVertex.value)
+        star(ctxO, coordinates, isFilled.value, starVertex.value)
         break
       default:
         stopDrawing()
         break
     }
-    stopDrawing()
   }
+}
+
+const figureCheck = (event: MouseEvent) => {
+  choosenFigure.value === '' ? drawCurve(event) : figureDraw(event)
 }
 
 const resizeCanvas = () => {
   if (!canvas.value) {
     return
   }
-  const canvass = canvas.value
-  const canvasWrapper = canvass.parentElement
+  const canvasWrapper = canvas.value.parentElement
   if (!canvasWrapper) {
     return
   }
   const width = canvasWrapper.clientWidth
   const height = canvasWrapper.clientHeight
-  canvass.width = width
-  canvass.height = height
+  canvas.value.width = width
+  canvas.value.height = height
+
+  if (!canvasOverlay.value) {
+    return
+  }
+  const canvasWrapperO = canvasOverlay.value.parentElement
+  if (!canvasWrapperO) {
+    return
+  }
+  const widthO = canvasWrapper.clientWidth
+  const heightO = canvasWrapper.clientHeight
+  canvasOverlay.value.width = widthO
+  canvasOverlay.value.height = heightO
 }
 
 onMounted(() => {
