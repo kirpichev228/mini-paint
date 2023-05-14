@@ -3,7 +3,6 @@
     <canvas
       ref="canvas"
       id="my-canvas"
-
       @mousedown="startDrawing"
       @mousemove="figureCheck"
       @mouseup="figureDraw"

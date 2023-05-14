@@ -57,7 +57,7 @@ const logOut = async () => {
 <style scoped>
 header {
   width: 100%;
-  height: 7vh;
+  min-height: 5vh;
   padding: 5px 20px;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);
