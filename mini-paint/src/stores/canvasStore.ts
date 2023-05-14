@@ -65,6 +65,13 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   function setCanvas(data: HTMLCanvasElement | null) {
     canvas.value = data
   }
+  function setCanvasImage(img: HTMLImageElement) {
+    if (!canvas.value) return
+    const ctx = canvas.value.getContext('2d')
+    clearCanvas()
+    ctx && ctx.drawImage(img, 0, 0, canvas.value.width, canvas.value.height) 
+    
+  }
   function clearCanvas() {
     if (!canvas.value) return
     const ctx = canvas.value.getContext('2d')
@@ -94,6 +101,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     setPolygonVertex,
     setCanvas,
     clearCanvas,
+    setCanvasImage,
     saveCanvas
   }
 })

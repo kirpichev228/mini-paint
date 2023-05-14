@@ -1,10 +1,12 @@
 <template>
   <main class="gallery-wrapper">
+    <Transition name="zoom">
     <ImageZoom 
       :imgURL="selectedImg.imgUrl" 
       v-if="selectedImg.isVisible" 
       @zoomOut="selectedImg.isVisible = false"
     />
+    </Transition>
     <h2 class="gallery-heading">Works gallery</h2>
     <label>
       Sort by user
@@ -17,7 +19,7 @@
       <TransitionGroup name="fade">
       <div class="image-container" v-for="(image, index) in filteredImageList" :key="index">
         <h4>{{ image.username }}</h4>
-        <img :src="image.imageURL" :alt="image.username" @click="setZoom(image.imageURL)"/>
+        <img :src="image.imageURL" :alt="image.username" @click="setZoom(String(image.imageURL))"/>
       </div>
     </TransitionGroup>
     </div>
@@ -122,19 +124,29 @@ img {
   box-shadow: var(--color-shadow);
 }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: all 0.2s ease;
-  }
-  .fade-enter-from,
-  .fade-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  .fade-enter-to,
-  .fade-leave-from {
-    opacity: 1;
-    transform: translateY(30px);
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: opacity 0.3s ease;
+}
 
-  }
+.zoom-enter-from,
+.zoom-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(30px);
+
+}
 </style>

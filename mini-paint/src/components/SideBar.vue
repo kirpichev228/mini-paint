@@ -6,6 +6,8 @@
     <FiguresBar />
     <ButtonSample @click="canvasStore.clearCanvas"> Clear area </ButtonSample>
     <ButtonSample @click="saveImage"> Save in gallery </ButtonSample>
+    <ButtonSample @click="loadImage">Open File</ButtonSample>
+
   </aside>
 </template>
 
@@ -41,12 +43,37 @@ const saveImage = async () => {
     loaderStore.setLoaderStatus()
   }
 }
+
+const loadImage = (): void => {
+  const input: HTMLInputElement = document.createElement('input')
+  input.type = 'file'
+  input.addEventListener('change', (event: Event) => {
+    const file: File | undefined = (event.target as HTMLInputElement)?.files?.[0]
+    if (!file) {
+      return
+    }
+    const reader: FileReader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.addEventListener('load', () => {
+      const img: HTMLImageElement = new Image()
+      img.addEventListener('load', () => {
+        canvasStore.setCanvasImage(img)
+      })
+      if (!reader.result) {
+        return
+      }
+      img.src = reader.result.toString()
+    })
+  })
+
+  input.click()
+}
 </script>
 
 <style scoped>
 aside {
   height: 90vh;
-  width: 20vw;
+  min-width: 260px;
   background: var(--color-primary);
   box-shadow: var(--color-shadow);
   padding: 20px;

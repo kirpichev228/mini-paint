@@ -148,6 +148,8 @@ const resizeCanvas = () => {
 }
 
 onMounted(() => {
+  initializeCanvas
+  stopDrawing()
   resizeCanvas()
 })
 
