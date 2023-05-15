@@ -21,6 +21,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const starVertex = ref(5)
   const polygonVertex = ref(5)
   const canvas: Ref<HTMLCanvasElement | null> = ref(null)
+  const canvasState: Ref<string[]> = ref([])
 
   const getColors = computed(() => colors)
   const getFigures = computed(() => figures)
@@ -82,6 +83,25 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     return dataUrl
   }
 
+  function saveCanvasState(state: HTMLCanvasElement | null) {
+    if (!state) return
+    const dataUrl = state.toDataURL('image/png')
+    canvasState.value.push(dataUrl)
+  }
+
+  function loadCanvasState() {
+    if (canvasState.value.length === 0) return
+    const previousState = canvasState.value.pop()!
+    const img = new Image()
+    img.onload = () => {
+      if (!canvas.value) return
+      const ctx = canvas.value.getContext('2d')
+      clearCanvas()
+      ctx && ctx.drawImage(img, 0, 0)
+    }
+    img.src = previousState
+  }
+
   return {
     getColors,
     getFigures,
@@ -101,6 +121,8 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     setCanvas,
     clearCanvas,
     setCanvasImage,
-    saveCanvas
+    saveCanvas,
+    saveCanvasState,
+    loadCanvasState
   }
 })

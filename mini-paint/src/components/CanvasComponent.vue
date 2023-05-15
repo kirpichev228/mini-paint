@@ -88,6 +88,7 @@ const stopDrawing = () => {
     ctx.drawImage(ctxO.canvas, 0, 0)
     ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
   }
+  canvasStore.saveCanvasState(canvas.value)
   canvasStore.setCanvas(canvas.value)
   isDrawing.value = false
 }
@@ -170,7 +171,7 @@ const resizeCanvas = () => {
 }
 
 onMounted(() => {
-  initializeCanvas
+  initializeCanvas()
   stopDrawing()
   resizeCanvas()
 })

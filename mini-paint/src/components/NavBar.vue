@@ -6,6 +6,7 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
+      <ButtonSample @click="loadImage" v-if="userStore.getAuthorizationStatus.value">Open File</ButtonSample>
       <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/gallery">
         Gallery
       </RouterLink>
@@ -32,12 +33,16 @@ import { useAuthStore } from '@/stores/authStore'
 import { useUserStore } from '@/stores/userStore'
 import { useErrorStore } from '@/stores/errorStore'
 import { useLoaderStore } from '@/stores/loaderStore'
+import { useCanvasStore } from '@/stores/canvasStore'
+
 import LoaderComponent from '@/components/UI/LoaderComponent.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
 const errorStore = useErrorStore()
 const loaderStore = useLoaderStore()
+const canvasStore = useCanvasStore()
+
 
 const modalStatus = ref(false)
 
@@ -51,6 +56,31 @@ const logOut = async () => {
   } finally {
     loaderStore.setLoaderStatus()
   }
+}
+
+const loadImage = (): void => {
+  const input: HTMLInputElement = document.createElement('input')
+  input.type = 'file'
+  input.addEventListener('change', (event: Event) => {
+    const file: File | undefined = (event.target as HTMLInputElement)?.files?.[0]
+    if (!file) {
+      return
+    }
+    const reader: FileReader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.addEventListener('load', () => {
+      const img: HTMLImageElement = new Image()
+      img.addEventListener('load', () => {
+        canvasStore.setCanvasImage(img)
+      })
+      if (!reader.result) {
+        return
+      }
+      img.src = reader.result.toString()
+    })
+  })
+
+  input.click()
 }
 </script>
 
