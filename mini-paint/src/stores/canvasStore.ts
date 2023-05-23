@@ -31,6 +31,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const getIsFigureFilled = computed(() => isFigureFilled)
   const getStarVertex = computed(() => starVertex)
   const getPolygonVertex = computed(() => polygonVertex)
+  const getCanvas = computed(() => canvas)
 
   function setPickedColor(color: string) {
     if (pickedColor.value === color) {
@@ -91,7 +92,8 @@ export const useCanvasStore = defineStore('canvasStore', () => {
 
   function loadCanvasState() {
     if (canvasState.value.length === 0) return
-    const previousState = canvasState.value.pop()!
+    canvasState.value.pop()!
+    const previousState = canvasState.value[canvasState.value.length - 1]    
     const img = new Image()
     img.onload = () => {
       if (!canvas.value) return
@@ -100,6 +102,10 @@ export const useCanvasStore = defineStore('canvasStore', () => {
       ctx && ctx.drawImage(img, 0, 0)
     }
     img.src = previousState
+  }
+
+  function clearCanvasState() {
+    canvasState.value = []
   }
 
   return {
@@ -111,6 +117,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     getIsFigureFilled,
     getPolygonVertex,
     getStarVertex,
+    getCanvas,
     addColors,
     setPickedColor,
     setBrushThikness,
@@ -123,6 +130,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
     setCanvasImage,
     saveCanvas,
     saveCanvasState,
-    loadCanvasState
+    loadCanvasState,
+    clearCanvasState
   }
 })

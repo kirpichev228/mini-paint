@@ -182,6 +182,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', resizeCanvas)
+  canvasStore.clearCanvasState()
 })
 </script>
 
