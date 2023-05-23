@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed, ref, reactive } from 'vue'
+import { onMounted, computed, ref, reactive, onUpdated } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useErrorStore } from '@/stores/errorStore'
 import { useLoaderStore } from '@/stores/loaderStore'
@@ -63,8 +63,6 @@ const getImages = async () => {
     await userStore.getImages()
   } catch (error: unknown) {
     errorStore.showErrorToast(String(error))
-  } finally {
-    loaderStore.setLoaderStatus()
   }
 }
 
@@ -79,6 +77,10 @@ const setZoom = (url: string) => {
 
 onMounted(() => {
   getImages()
+})
+
+onUpdated(() => {
+  loaderStore.setLoaderStatus()
 })
 </script>
 
@@ -104,13 +106,11 @@ onMounted(() => {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(446px, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(240px, 1fr));
   justify-items: center;
-  grid-gap: var(--gap);
+  gap: var(--gap);
 }
 
 .image-container {
-  width: 446px;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -123,6 +123,8 @@ onMounted(() => {
 
 img {
   cursor: zoom-in;
+  width: 420px;
+  height: 200px;
   background: #fff;
   box-shadow: var(--color-shadow);
 }

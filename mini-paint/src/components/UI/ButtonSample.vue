@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-  defineProps({
-    disabled: {
-      type: Boolean,
-      default: false
-    }
-  })
+defineProps({
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+})
 </script>
 
 <style scoped>

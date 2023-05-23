@@ -6,11 +6,13 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
-      <ButtonSample @click="loadImage" v-if="userStore.getAuthorizationStatus.value">Open File</ButtonSample>
-      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/gallery">
+      <ButtonSample @click="loadImage" v-if="userStore.getAuthorizationStatus.value"
+        >Open File</ButtonSample
+      >
+      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/">
         Gallery
       </RouterLink>
-      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/">
+      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/draw">
         Draw page
       </RouterLink>
     </div>
@@ -42,7 +44,6 @@ const userStore = useUserStore()
 const errorStore = useErrorStore()
 const loaderStore = useLoaderStore()
 const canvasStore = useCanvasStore()
-
 
 const modalStatus = ref(false)
 

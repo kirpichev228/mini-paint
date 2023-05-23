@@ -47,8 +47,6 @@ const saveImage = async () => {
     buttonDisable.value = false
   }
 }
-
-
 </script>
 
 <style scoped>

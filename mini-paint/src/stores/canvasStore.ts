@@ -93,7 +93,7 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   function loadCanvasState() {
     if (canvasState.value.length === 0) return
     canvasState.value.pop()!
-    const previousState = canvasState.value[canvasState.value.length - 1]    
+    const previousState = canvasState.value[canvasState.value.length - 1]
     const img = new Image()
     img.onload = () => {
       if (!canvas.value) return

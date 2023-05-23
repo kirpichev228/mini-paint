@@ -7,8 +7,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Main',
-      component: () => import('@/views/MainPage.vue'),
+      name: 'Gallery',
+      component: () => import('@/views/GalleryPage.vue'),
       meta: {
         requiresAuth: true
       }
@@ -24,9 +24,9 @@ const router = createRouter({
       component: () => import('@/views/RegistrationPage.vue')
     },
     {
-      path: '/gallery',
-      name: 'Gallery',
-      component: () => import('@/views/GalleryPage.vue'),
+      path: '/draw',
+      name: 'Draw',
+      component: () => import('@/views/DrawPage.vue'),
       meta: {
         requiresAuth: true
       }
