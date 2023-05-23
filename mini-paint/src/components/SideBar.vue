@@ -5,12 +5,13 @@
     <CustomColor />
     <FiguresBar />
     <ButtonSample @click="canvasStore.clearCanvas"> Clear area </ButtonSample>
-    <ButtonSample @click="saveImage"> Save in gallery </ButtonSample>
+    <ButtonSample :disabled="buttonDisable" @click="saveImage"> Save in gallery </ButtonSample>
     <ButtonSample @click="canvasStore.loadCanvasState">Undo</ButtonSample>
   </aside>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import ColorsBar from '@/components/ColorsBar.vue'
 import FiguresBar from '@/components/FiguresBar.vue'
 import BrushRange from '@/components/UI/BrushRange.vue'
@@ -27,6 +28,8 @@ const userStore = useUserStore()
 const loaderStore = useLoaderStore()
 const errorStore = useErrorStore()
 
+const buttonDisable = ref(false)
+
 const saveImage = async () => {
   const imageData: ImageInfo = {
     username: userStore.getUser.value.email,
@@ -34,12 +37,14 @@ const saveImage = async () => {
   }
 
   try {
+    buttonDisable.value = true
     loaderStore.setLoaderStatus()
     await userStore.saveImage(imageData)
   } catch (error: unknown) {
     errorStore.showErrorToast(String(error))
   } finally {
     loaderStore.setLoaderStatus()
+    buttonDisable.value = false
   }
 }
 

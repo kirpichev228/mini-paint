@@ -1,10 +1,17 @@
 <template>
-  <button>
+  <button :disabled="disabled">
     <slot></slot>
   </button>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  defineProps({
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  })
+</script>
 
 <style scoped>
 button {
