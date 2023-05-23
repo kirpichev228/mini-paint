@@ -1,6 +1,6 @@
 import { ref, set } from 'firebase/database'
 import { realtimeDB } from '@/firebase/index'
-import type { ImageInfo } from '@/components/types'
+import type { ImageInfo } from '@/types'
 
 class ImageService {
   async save(imageData: ImageInfo) {

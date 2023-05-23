@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, type Ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useCanvasStore = defineStore('canvasStore', () => {
   const colors = ref([
@@ -20,9 +20,9 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const isFigureFilled = ref(false)
   const starVertex = ref(5)
   const polygonVertex = ref(5)
-  const canvas: Ref<HTMLCanvasElement | null> = ref(null)
-  const canvasState: Ref<string[]> = ref([])
-
+  const canvas = ref<HTMLCanvasElement | null>(null)
+  const canvasState = ref<string[]>([])
+  // сейв неактивен пока сохраняется, удаление картинок своих, анду
   const getColors = computed(() => colors)
   const getFigures = computed(() => figures)
   const getPickedColor = computed(() => pickedColor)

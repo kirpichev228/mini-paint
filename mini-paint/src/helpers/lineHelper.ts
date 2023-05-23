@@ -1,4 +1,4 @@
-import type { FigureCoordinates } from '@/components/types'
+import type { FigureCoordinates } from '@/types'
 
 export const line = (ctx: CanvasRenderingContext2D, coordinates: FigureCoordinates) => {
   ctx.beginPath()

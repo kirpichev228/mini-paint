@@ -1,4 +1,4 @@
-import type { ImageInfo } from '@/components/types'
+import type { ImageInfo } from '@/types'
 import { auth } from '@/firebase/index'
 import authService from '@/services/authService'
 import imageService from '@/services/imageService'

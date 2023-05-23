@@ -20,7 +20,7 @@ import { circle } from '@/helpers/circleHelper'
 import { rectangle } from '@/helpers/rectangleHelper'
 import { star } from '@/helpers/starHelper'
 import { polygon } from '@/helpers/polygonHelper'
-import type { FigureCoordinates } from '@/components/types/index'
+import type { FigureCoordinates } from '@/types/index'
 
 const canvasStore = useCanvasStore()
 

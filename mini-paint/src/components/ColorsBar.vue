@@ -20,6 +20,7 @@ import { useCanvasStore } from '@/stores/canvasStore'
 const canvasStore = useCanvasStore()
 
 const colors = canvasStore.getColors
+
 const pickedColor = canvasStore.getPickedColor
 
 const setColor = (color: string) => {

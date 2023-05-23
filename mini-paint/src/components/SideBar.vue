@@ -18,7 +18,7 @@ import CustomColor from './UI/CustomColor.vue'
 import ButtonSample from './UI/ButtonSample.vue'
 import { useCanvasStore } from '@/stores/canvasStore'
 import { useUserStore } from '@/stores/userStore'
-import type { ImageInfo } from '@/components/types/'
+import type { ImageInfo } from '@/types'
 import { useLoaderStore } from '@/stores/loaderStore'
 import { useErrorStore } from '@/stores/errorStore'
 
