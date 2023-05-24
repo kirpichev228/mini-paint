@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 
 export const useErrorStore = defineStore('errorStore', () => {
   const errorMessage = ref('')
   const errorToastStatus = ref(false)
 
-  const getErrorMessage = computed(() => errorMessage)
-  const getErrorModalStatus = computed(() => errorToastStatus)
+  const getErrorMessage = computed<Ref<string>>(() => errorMessage)
+  const getErrorModalStatus = computed<Ref<boolean>>(() => errorToastStatus)
 
   function showErrorToast(message: string) {
     errorMessage.value = message

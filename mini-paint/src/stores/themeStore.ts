@@ -7,10 +7,10 @@ export const useThemeStore = defineStore('themeStore', () => {
   const backgroundColor = ref('#5f6461')
   const shadowColor = ref('#000000')
 
-  const getPrimaryColor = computed(() => primaryColor.value)
-  const getSecondaryColor = computed(() => secondaryColor.value)
-  const getBackgroundColor = computed(() => backgroundColor.value)
-  const getShadowColor = computed(() => shadowColor.value)
+  const getPrimaryColor = computed<string>(() => primaryColor.value)
+  const getSecondaryColor = computed<string>(() => secondaryColor.value)
+  const getBackgroundColor = computed<string>(() => backgroundColor.value)
+  const getShadowColor = computed<string>(() => shadowColor.value)
 
   function setPrimaryColor(color: string) {
     document.documentElement.style.setProperty('--color-primary', color)

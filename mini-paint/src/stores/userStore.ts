@@ -4,13 +4,13 @@ import authService from '@/services/authService'
 import imageService from '@/services/imageService'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
-import { computed, ref, type Ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useUserStore = defineStore('userStore', () => {
   const isAuthorized = ref(false)
   const user = ref()
-  const userId: Ref<string | undefined> = ref('' || undefined)
-  const images: Ref<ImageInfo[] | undefined> = ref()
+  const userId = ref<string | undefined>('' || undefined)
+  const images = ref<ImageInfo[] | undefined>()
   const getUser = computed(() => user)
   const getUserId = computed(() => userId)
   const getAuthorizationStatus = computed(() => isAuthorized)

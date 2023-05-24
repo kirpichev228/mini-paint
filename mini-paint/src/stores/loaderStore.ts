@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 
 export const useLoaderStore = defineStore('loaderStore', () => {
   const isLoaderVisible = ref(false)
 
-  const getLoaderStatus = computed(() => isLoaderVisible)
+  const getLoaderStatus = computed<Ref<boolean>>(() => isLoaderVisible)
 
   function setLoaderStatus() {
     isLoaderVisible.value = !isLoaderVisible.value
