@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, type Ref, } from 'vue'
+import { ref } from 'vue'
 
 export const useCanvasStore = defineStore('canvasStore', () => {
   const colors = ref([
@@ -22,16 +22,6 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   const polygonVertex = ref(5)
   const canvas = ref<HTMLCanvasElement | null>(null)
   const canvasState = ref<string[]>([])
-
-  const getColors = computed<Ref<string[]>>(() => colors)
-  const getFigures = computed<Ref<string[]>>(() => figures)
-  const getPickedColor = computed<Ref<string>>(() => pickedColor)
-  const getBrushThickness = computed<Ref<number>>(() => brushThickness)
-  const getChoosenFigure = computed<Ref<string>>(() => choosenFigure)
-  const getIsFigureFilled = computed<Ref<boolean>>(() => isFigureFilled)
-  const getStarVertex = computed<Ref<number>>(() => starVertex)
-  const getPolygonVertex = computed<Ref<number>>(() => polygonVertex)
-  const getCanvas = computed<Ref<HTMLCanvasElement | null>>(() => canvas)
 
   function setPickedColor(color: string) {
     if (pickedColor.value === color) {
@@ -109,15 +99,16 @@ export const useCanvasStore = defineStore('canvasStore', () => {
   }
 
   return {
-    getColors,
-    getFigures,
-    getPickedColor,
-    getBrushThickness,
-    getChoosenFigure,
-    getIsFigureFilled,
-    getPolygonVertex,
-    getStarVertex,
-    getCanvas,
+    colors,
+    figures,
+    pickedColor,
+    brushThickness,
+    choosenFigure,
+    isFigureFilled,
+    starVertex,
+    polygonVertex,
+    canvas,
+    canvasState,
     addColors,
     setPickedColor,
     setBrushThikness,

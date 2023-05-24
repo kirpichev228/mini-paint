@@ -4,17 +4,13 @@ import authService from '@/services/authService'
 import imageService from '@/services/imageService'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 export const useUserStore = defineStore('userStore', () => {
   const isAuthorized = ref(false)
   const user = ref()
   const userId = ref<string | undefined>('' || undefined)
   const images = ref<ImageInfo[] | undefined>()
-  const getUser = computed(() => user)
-  const getUserId = computed(() => userId)
-  const getAuthorizationStatus = computed(() => isAuthorized)
-  const getImagesList = computed(() => images)
 
   function setAuthorizationStatus(state: boolean): void {
     isAuthorized.value = state
@@ -57,9 +53,10 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   return {
-    getUser,
-    getUserId,
-    getAuthorizationStatus,
+    isAuthorized,
+    user,
+    userId,
+    images,
     setUser,
     setUserId,
     setAuthorizationStatus,
@@ -67,6 +64,5 @@ export const useUserStore = defineStore('userStore', () => {
     saveImage,
     getImages,
     deleteImage,
-    getImagesList
   }
 })

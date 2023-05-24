@@ -21,11 +21,11 @@
     </div>
     <div class="figures-container">
       <ButtonSample
-        v-for="(figure, index) in figuresList"
+        v-for="(figure, index) in figures"
         :key="index"
         @click="setFigure(figure)"
         :class="{
-          active: currentFigure === figure
+          active: choosenFigure === figure
         }"
       >
         {{ figure }}
@@ -39,7 +39,7 @@
           max="500"
           min="3"
           step="1"
-          v-model="starAmount"
+          v-model="starVertex"
           @change="setStarVertex"
         />
       </div>
@@ -50,7 +50,7 @@
           max="20"
           min="5"
           step="1"
-          v-model="polygonAmount"
+          v-model="polygonVertex"
           @change="setPolygonVertex"
         />
       </div>
@@ -60,14 +60,12 @@
 
 <script setup lang="ts">
 import { useCanvasStore } from '@/stores/canvasStore'
+import { storeToRefs } from 'pinia'
 import ButtonSample from './UI/ButtonSample.vue'
 
 const canvasStore = useCanvasStore()
-const polygonAmount = canvasStore.getPolygonVertex
-const starAmount = canvasStore.getStarVertex
-const figuresList = canvasStore.getFigures
-const currentFigure = canvasStore.getChoosenFigure
-const isFigureFilled = canvasStore.getIsFigureFilled
+const { polygonVertex, starVertex, figures, choosenFigure, isFigureFilled } =
+  storeToRefs(canvasStore)
 
 const setFigure = (figure: string) => {
   canvasStore.setFigure(figure)

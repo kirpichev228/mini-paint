@@ -1,6 +1,6 @@
 <template>
   <div class="toastWrapper">
-    {{ errorStore.getErrorMessage.value }}
+    {{ errorStore.errorMessage }}
   </div>
 </template>
 

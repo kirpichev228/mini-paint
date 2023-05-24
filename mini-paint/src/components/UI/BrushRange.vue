@@ -26,10 +26,11 @@
 
 <script setup lang="ts">
 import { useCanvasStore } from '@/stores/canvasStore'
+import { storeToRefs } from 'pinia'
 
 const canvasStore = useCanvasStore()
 
-const brushThickness = canvasStore.getBrushThickness
+const { brushThickness } = storeToRefs(canvasStore)
 
 const setBrushThckness = (event: Event) => {
   const target = event.target as HTMLInputElement

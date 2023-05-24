@@ -32,7 +32,7 @@ const buttonDisable = ref(false)
 
 const saveImage = async () => {
   const imageData: ImageInfo = {
-    username: userStore.getUser.value.email,
+    username: userStore.user.value.email,
     imageURL: canvasStore.saveCanvas(),
     itemID: new Date().getTime()
   }

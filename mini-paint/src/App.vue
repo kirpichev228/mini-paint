@@ -18,7 +18,7 @@ onMounted(() => {
     <NavBar />
     <RouterView />
     <Transition name="error">
-      <ErrorToast v-if="errorStore.getErrorModalStatus.value" />
+      <ErrorToast v-if="errorStore.errorToastStatus" />
     </Transition>
   </div>
 </template>

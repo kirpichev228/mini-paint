@@ -16,12 +16,11 @@
 
 <script setup lang="ts">
 import { useCanvasStore } from '@/stores/canvasStore'
+import { storeToRefs } from 'pinia'
 
 const canvasStore = useCanvasStore()
 
-const colors = canvasStore.getColors
-
-const pickedColor = canvasStore.getPickedColor
+const { colors, pickedColor } = storeToRefs(canvasStore)
 
 const setColor = (color: string) => {
   canvasStore.setPickedColor(color)

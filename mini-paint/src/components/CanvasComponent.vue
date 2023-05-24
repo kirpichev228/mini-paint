@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCanvasStore } from '@/stores/canvasStore'
 import { line } from '@/helpers/lineHelper'
 import { circle } from '@/helpers/circleHelper'
@@ -32,12 +33,8 @@ const startY = ref(0)
 const endX = ref(0)
 const endY = ref(0)
 
-const width = canvasStore.getBrushThickness
-const color = canvasStore.getPickedColor
-const choosenFigure = canvasStore.getChoosenFigure
-const isFilled = canvasStore.getIsFigureFilled
-const polygonVertex = canvasStore.getPolygonVertex
-const starVertex = canvasStore.getStarVertex
+const { pickedColor, choosenFigure, isFigureFilled, polygonVertex, starVertex, brushThickness } =
+  storeToRefs(canvasStore)
 
 const initializeCanvas = () => {
   if (!canvasOverlay.value) {
@@ -45,10 +42,10 @@ const initializeCanvas = () => {
   }
   const ctxO = canvasOverlay.value.getContext('2d')
   if (ctxO) {
-    ctxO.lineWidth = Number(width.value)
+    ctxO.lineWidth = brushThickness.value
     ctxO.lineCap = 'round'
-    ctxO.strokeStyle = color.value
-    ctxO.fillStyle = color.value
+    ctxO.strokeStyle = pickedColor.value
+    ctxO.fillStyle = pickedColor.value
   }
 }
 
@@ -113,25 +110,25 @@ const figureDraw = (event: MouseEvent) => {
 
     switch (choosenFigure.value) {
       case 'rectangle':
-        rectangle(ctxO, coordinates, isFilled.value)
+        rectangle(ctxO, coordinates, isFigureFilled.value)
         break
       case 'circle':
-        circle(ctxO, coordinates, isFilled.value)
+        circle(ctxO, coordinates, isFigureFilled.value)
         break
       case 'line':
         line(ctxO, coordinates)
         break
       case 'polygon':
-        polygon(ctxO, coordinates, isFilled.value, polygonVertex.value)
+        polygon(ctxO, coordinates, isFigureFilled.value, polygonVertex.value)
         break
       case 'square':
-        polygon(ctxO, coordinates, isFilled.value, 4)
+        polygon(ctxO, coordinates, isFigureFilled.value, 4)
         break
       case 'triangle':
-        polygon(ctxO, coordinates, isFilled.value, 3)
+        polygon(ctxO, coordinates, isFigureFilled.value, 3)
         break
       case 'star':
-        star(ctxO, coordinates, isFilled.value, starVertex.value)
+        star(ctxO, coordinates, isFigureFilled.value, starVertex.value)
         break
       default:
         stopDrawing()

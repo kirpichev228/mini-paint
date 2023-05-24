@@ -6,20 +6,20 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
-      <ButtonSample @click="loadImage" v-if="userStore.getAuthorizationStatus.value"
+      <ButtonSample @click="loadImage" v-if="authStatus"
         >Open File</ButtonSample
       >
-      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/">
+      <RouterLink class="link" v-if="userStore.isAuthorized" to="/">
         Gallery
       </RouterLink>
-      <RouterLink class="link" v-if="userStore.getAuthorizationStatus.value" to="/draw">
+      <RouterLink class="link" v-if="userStore.isAuthorized" to="/draw">
         Draw page
       </RouterLink>
     </div>
-    <LoaderComponent v-if="loaderStore.getLoaderStatus.value" />
-    <div v-if="userStore.getAuthorizationStatus.value" class="user-area">
+    <LoaderComponent v-if="loaderStore.isLoaderVisible" />
+    <div v-if="userStore.isAuthorized" class="user-area">
       <h3 class="user-mail">
-        {{ userStore.getUser.value.email }}
+        {{ userStore.user.email }}
       </h3>
       <ButtonSample @click="logOut"> Log Out </ButtonSample>
     </div>
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import ButtonSample from '@/components/UI/ButtonSample.vue'
 import ThemeModal from '@/components/ThemeModal.vue'
 import { useAuthStore } from '@/stores/authStore'
@@ -46,6 +46,7 @@ const loaderStore = useLoaderStore()
 const canvasStore = useCanvasStore()
 
 const modalStatus = ref(false)
+const authStatus = computed(() => userStore.isAuthorized)
 
 const logOut = async () => {
   try {

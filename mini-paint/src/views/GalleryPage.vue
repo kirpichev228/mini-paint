@@ -22,7 +22,7 @@
             <h4>{{ image.username }}</h4>
             <button
               class="delete-image"
-              v-if="userStore.getUser.value.email === image.username"
+              v-if="userStore.user.email === image.username"
               @click="deleteImage(image.itemID)"
             >
               Delete
@@ -50,8 +50,7 @@ const userStore = useUserStore()
 const errorStore = useErrorStore()
 const loaderStore = useLoaderStore()
 
-const imageList = userStore.getImagesList
-console.log(imageList)
+const imageList = computed(() => userStore.images)
 
 const selectedUser = ref('')
 

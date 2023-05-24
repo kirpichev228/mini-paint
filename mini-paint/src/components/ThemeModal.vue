@@ -2,19 +2,19 @@
   <div class="theme-wrapper">
     <label>
       Primary
-      <input type="color" :value="themeStore.getPrimaryColor" @change="setPrimary" />
+      <input type="color" :value="themeStore.primaryColor" @change="setPrimary" />
     </label>
     <label>
       Secondary
-      <input type="color" :value="themeStore.getSecondaryColor" @change="setSecondary" />
+      <input type="color" :value="themeStore.secondaryColor" @change="setSecondary" />
     </label>
     <label>
       Background
-      <input type="color" :value="themeStore.getBackgroundColor" @change="setBackground" />
+      <input type="color" :value="themeStore.backgroundColor" @change="setBackground" />
     </label>
     <label>
       Shadow
-      <input type="color" :value="themeStore.getShadowColor" @change="setShadow" />
+      <input type="color" :value="themeStore.shadowColor" @change="setShadow" />
     </label>
   </div>
 </template>
