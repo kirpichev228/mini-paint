@@ -18,7 +18,16 @@
     <div class="works-container">
       <TransitionGroup name="fade">
         <div class="image-container" v-for="(image, index) in filteredImageList" :key="index">
-          <h4>{{ image.username }}</h4>
+          <div class="image-heading">
+            <h4>{{ image.username }}</h4>
+            <button
+              class="delete-image"
+              v-if="userStore.getUser.value.email === image.username"
+              @click="deleteImage(image.itemID)"
+            >
+              Delete
+            </button>
+          </div>
           <img
             :src="image.imageURL"
             :alt="image.username"
@@ -42,6 +51,7 @@ const errorStore = useErrorStore()
 const loaderStore = useLoaderStore()
 
 const imageList = userStore.getImagesList
+console.log(imageList)
 
 const selectedUser = ref('')
 
@@ -63,6 +73,16 @@ const getImages = async () => {
     await userStore.getImages()
   } catch (error: unknown) {
     errorStore.showErrorToast(String(error))
+  }
+}
+
+const deleteImage = async (userID: number) => {
+  try {
+    await userStore.deleteImage(userID)
+  } catch (error: unknown) {
+    errorStore.showErrorToast(String(error))
+  } finally {
+    loaderStore.setLoaderStatus()
   }
 }
 
@@ -119,6 +139,24 @@ onUpdated(() => {
   background: var(--color-background);
   box-shadow: inset var(--color-shadow);
   color: var(--color-primary);
+}
+
+.image-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-image {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.delete-image:hover {
+  color: var(--color-secondary);
 }
 
 img {

@@ -51,6 +51,11 @@ export const useUserStore = defineStore('userStore', () => {
       }
     })
   }
+
+  async function deleteImage(userID: number) {
+    await imageService.delete(userID)
+  }
+
   return {
     getUser,
     getUserId,
@@ -61,6 +66,7 @@ export const useUserStore = defineStore('userStore', () => {
     fetchUser,
     saveImage,
     getImages,
+    deleteImage,
     getImagesList
   }
 })
