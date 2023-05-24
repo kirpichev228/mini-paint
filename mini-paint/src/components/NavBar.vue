@@ -58,6 +58,8 @@ const logOut = async () => {
     loaderStore.setLoaderStatus()
   }
 }
+loaderStore.setLoaderStatus()
+
 
 const loadImage = (): void => {
   const input: HTMLInputElement = document.createElement('input')
