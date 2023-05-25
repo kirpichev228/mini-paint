@@ -13,17 +13,17 @@ import { ref } from 'vue'
 import { useCanvasStore } from '@/stores/canvasStore'
 import ButtonSample from './ButtonSample.vue'
 
-const canvasStore = useCanvasStore()
+const { setPickedColor, addColors } = useCanvasStore()
 
 const customColor = ref('#000000')
 
 const setCustomColor = (event: Event) => {
   const target = event.target as HTMLInputElement
-  canvasStore.setPickedColor(target.value)
+  setPickedColor(target.value)
 }
 
 const saveCustomColor = () => {
-  canvasStore.addColors(customColor.value)
+  addColors(customColor.value)
 }
 </script>
 

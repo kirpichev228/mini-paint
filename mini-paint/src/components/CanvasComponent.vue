@@ -23,7 +23,7 @@ import { star } from '@/helpers/starHelper'
 import { polygon } from '@/helpers/polygonHelper'
 import type { FigureCoordinates } from '@/types/index'
 
-const canvasStore = useCanvasStore()
+const { saveCanvasState, setCanvas, clearCanvasState } = useCanvasStore()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const canvasOverlay = ref<HTMLCanvasElement | null>(null)
@@ -34,7 +34,7 @@ const endX = ref(0)
 const endY = ref(0)
 
 const { pickedColor, choosenFigure, isFigureFilled, polygonVertex, starVertex, brushThickness } =
-  storeToRefs(canvasStore)
+  storeToRefs(useCanvasStore())
 
 const initializeCanvas = () => {
   if (!canvasOverlay.value) {
@@ -85,8 +85,8 @@ const stopDrawing = () => {
     ctx.drawImage(ctxO.canvas, 0, 0)
     ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
   }
-  canvasStore.saveCanvasState(canvas.value)
-  canvasStore.setCanvas(canvas.value)
+  saveCanvasState(canvas.value)
+  setCanvas(canvas.value)
   isDrawing.value = false
 }
 
@@ -176,7 +176,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', resizeCanvas)
-  canvasStore.clearCanvasState()
+  clearCanvasState()
 })
 </script>
 

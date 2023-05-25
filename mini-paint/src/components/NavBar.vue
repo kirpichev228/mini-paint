@@ -6,20 +6,20 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
-      <ButtonSample @click="loadImage" v-if="authStatus && $route.path === '/draw'"
+      <ButtonSample @click="loadImage" v-if="isAuthorized && $route.path === '/draw'"
         >Open File</ButtonSample
       >
-      <RouterLink class="link" v-if="userStore.isAuthorized" to="/">
+      <RouterLink class="link" v-if="isAuthorized" to="/">
         Gallery
       </RouterLink>
-      <RouterLink class="link" v-if="userStore.isAuthorized" to="/draw">
+      <RouterLink class="link" v-if="isAuthorized" to="/draw">
         Draw page
       </RouterLink>
     </div>
-    <LoaderComponent v-if="loaderStore.isLoaderVisible" />
-    <div v-if="userStore.isAuthorized" class="user-area">
+    <LoaderComponent v-if="isLoaderVisible" />
+    <div v-if="isAuthorized" class="user-area">
       <h3 class="user-mail">
-        {{ userStore.user.email }}
+        {{ user.email }}
       </h3>
       <ButtonSample @click="logOut"> Log Out </ButtonSample>
     </div>
@@ -28,7 +28,8 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import ButtonSample from '@/components/UI/ButtonSample.vue'
 import ThemeModal from '@/components/ThemeModal.vue'
 import { useAuthStore } from '@/stores/authStore'
@@ -39,26 +40,24 @@ import { useCanvasStore } from '@/stores/canvasStore'
 
 import LoaderComponent from '@/components/UI/LoaderComponent.vue'
 
-const authStore = useAuthStore()
-const userStore = useUserStore()
-const errorStore = useErrorStore()
-const loaderStore = useLoaderStore()
-const canvasStore = useCanvasStore()
+const { logout } = useAuthStore()
+const { isAuthorized, user } = storeToRefs(useUserStore())
+const { showErrorToast } = useErrorStore()
+const { setLoaderStatus } = useLoaderStore()
+const { isLoaderVisible } = storeToRefs(useLoaderStore())
+const { setCanvasImage } = useCanvasStore()
 
 const modalStatus = ref(false)
-const authStatus = computed<boolean>(
-  () => userStore.isAuthorized
-)
 
 const logOut = async () => {
   try {
-    loaderStore.setLoaderStatus()
-    await authStore.logout()
+    setLoaderStatus()
+    await logout()
     router.push('/login')
   } catch (error: unknown) {
-    errorStore.showErrorToast(String(error))
+    showErrorToast(String(error))
   } finally {
-    loaderStore.setLoaderStatus()
+    setLoaderStatus()
   }
 }
 
@@ -75,7 +74,7 @@ const loadImage = (): void => {
     reader.addEventListener('load', () => {
       const img: HTMLImageElement = new Image()
       img.addEventListener('load', () => {
-        canvasStore.setCanvasImage(img)
+        setCanvasImage(img)
       })
       if (!reader.result) {
         return

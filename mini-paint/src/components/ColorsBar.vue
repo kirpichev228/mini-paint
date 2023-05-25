@@ -7,7 +7,7 @@
         v-for="(color, index) in colors"
         :key="index"
         :style="{ background: color }"
-        @click="setColor(color)"
+        @click="setPickedColor(color)"
         :class="{ active: pickedColor === color }"
       ></div>
     </div>
@@ -18,13 +18,10 @@
 import { useCanvasStore } from '@/stores/canvasStore'
 import { storeToRefs } from 'pinia'
 
-const canvasStore = useCanvasStore()
+const { setPickedColor } = useCanvasStore()
 
-const { colors, pickedColor } = storeToRefs(canvasStore)
+const { colors, pickedColor } = storeToRefs(useCanvasStore())
 
-const setColor = (color: string) => {
-  canvasStore.setPickedColor(color)
-}
 </script>
 
 <style scoped>

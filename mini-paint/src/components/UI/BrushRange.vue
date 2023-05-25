@@ -9,7 +9,7 @@
         step="0.1"
         class="number"
         v-model="brushThickness"
-        @change="setBrushThckness"
+        @change="setBrushWidth"
       />
     </h3>
     <input
@@ -19,7 +19,7 @@
       step="0.1"
       class="range"
       v-model="brushThickness"
-      @change="setBrushThckness"
+      @change="setBrushWidth"
     />
   </div>
 </template>
@@ -28,13 +28,13 @@
 import { useCanvasStore } from '@/stores/canvasStore'
 import { storeToRefs } from 'pinia'
 
-const canvasStore = useCanvasStore()
+const { setBrushThikness } = useCanvasStore()
 
-const { brushThickness } = storeToRefs(canvasStore)
+const { brushThickness } = storeToRefs(useCanvasStore())
 
-const setBrushThckness = (event: Event) => {
+const setBrushWidth = (event: Event) => {
   const target = event.target as HTMLInputElement
-  canvasStore.setBrushThikness(Number(target.value))
+  setBrushThikness(Number(target.value))
 }
 </script>
 

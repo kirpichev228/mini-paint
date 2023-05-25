@@ -40,7 +40,7 @@
           min="3"
           step="1"
           v-model="starVertex"
-          @change="setStarVertex"
+          @change="chooseStarVertex"
         />
       </div>
       <div class="polygon">
@@ -51,7 +51,7 @@
           min="5"
           step="1"
           v-model="polygonVertex"
-          @change="setPolygonVertex"
+          @change="choosePolygonVertex"
         />
       </div>
     </div>
@@ -63,23 +63,19 @@ import { useCanvasStore } from '@/stores/canvasStore'
 import { storeToRefs } from 'pinia'
 import ButtonSample from './UI/ButtonSample.vue'
 
-const canvasStore = useCanvasStore()
-const { polygonVertex, starVertex, figures, choosenFigure, isFigureFilled } =
-  storeToRefs(canvasStore)
+const { setFigure, setFillState, setPolygonVertex, setStarVertex } = 
+  useCanvasStore()
 
-const setFigure = (figure: string) => {
-  canvasStore.setFigure(figure)
-}
-const setFillState = (state: boolean) => {
-  canvasStore.setFillState(state)
-}
-const setPolygonVertex = (event: Event) => {
+const { polygonVertex, starVertex, figures, choosenFigure, isFigureFilled } =
+  storeToRefs(useCanvasStore())
+
+const choosePolygonVertex = (event: Event) => {
   const target = event.target as HTMLInputElement
-  canvasStore.setPolygonVertex(Number(target.value))
+  setPolygonVertex(Number(target.value))
 }
-const setStarVertex = (event: Event) => {
+const chooseStarVertex = (event: Event) => {
   const target = event.target as HTMLInputElement
-  canvasStore.setStarVertex(Number(target.value))
+  setStarVertex(Number(target.value))
 }
 </script>
 

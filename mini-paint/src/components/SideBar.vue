@@ -4,9 +4,9 @@
     <ColorsBar />
     <CustomColor />
     <FiguresBar />
-    <ButtonSample @click="canvasStore.clearCanvas"> Clear area </ButtonSample>
-    <ButtonSample :disabled="buttonDisable" @click="saveImage"> Save in gallery </ButtonSample>
-    <ButtonSample @click="canvasStore.loadCanvasState">Undo</ButtonSample>
+    <ButtonSample @click="clearCanvas"> Clear area </ButtonSample>
+    <ButtonSample :disabled="buttonDisable" @click="saveImageInGallery"> Save in gallery </ButtonSample>
+    <ButtonSample @click="loadCanvasState">Undo</ButtonSample>
   </aside>
 </template>
 
@@ -22,29 +22,31 @@ import { useUserStore } from '@/stores/userStore'
 import type { ImageInfo } from '@/types'
 import { useLoaderStore } from '@/stores/loaderStore'
 import { useErrorStore } from '@/stores/errorStore'
+import { storeToRefs } from 'pinia'
 
-const canvasStore = useCanvasStore()
-const userStore = useUserStore()
-const loaderStore = useLoaderStore()
-const errorStore = useErrorStore()
+const { saveCanvas, clearCanvas, loadCanvasState } = useCanvasStore()
+const { saveImage } = useUserStore()
+const { user } = storeToRefs(useUserStore())
+const { setLoaderStatus } = useLoaderStore()
+const { showErrorToast } = useErrorStore()
 
 const buttonDisable = ref(false)
 
-const saveImage = async () => {
+const saveImageInGallery = async () => {
   const imageData: ImageInfo = {
-    username: userStore.user.value.email,
-    imageURL: canvasStore.saveCanvas(),
+    username: user.value.email,
+    imageURL: saveCanvas(),
     itemID: new Date().getTime()
   }
 
   try {
     buttonDisable.value = true
-    loaderStore.setLoaderStatus()
-    await userStore.saveImage(imageData)
+    setLoaderStatus()
+    await saveImage(imageData)
   } catch (error: unknown) {
-    errorStore.showErrorToast(String(error))
+    showErrorToast(String(error))
   } finally {
-    loaderStore.setLoaderStatus()
+    setLoaderStatus()
     buttonDisable.value = false
   }
 }

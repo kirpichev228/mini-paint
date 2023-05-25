@@ -9,7 +9,7 @@ import { ref } from 'vue'
 export const useUserStore = defineStore('userStore', () => {
   const isAuthorized = ref(false)
   const user = ref()
-  const userId = ref<string | undefined>('' || undefined)
+  const userId = ref<string | null>('' || null)
   const images = ref<ImageInfo[] | undefined>()
 
   function setAuthorizationStatus(state: boolean): void {
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('userStore', () => {
       if (!userData) {
         isAuthorized.value = false
         user.value = null
-        userId.value = undefined
+        userId.value = null
       } else {
         isAuthorized.value = true
         user.value = userData
@@ -28,7 +28,7 @@ export const useUserStore = defineStore('userStore', () => {
       }
     })
   }
-  function setUserId(data: string | undefined): void {
+  function setUserId(data: string | null): void {
     userId.value = data
   }
   async function fetchUser(): Promise<unknown> {
