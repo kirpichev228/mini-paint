@@ -15,7 +15,7 @@ export const useUserStore = defineStore('userStore', () => {
   function setAuthorizationStatus(state: boolean): void {
     isAuthorized.value = state
   }
-  async function setUser() {
+  async function setUser(): Promise<void> {
     auth.onAuthStateChanged(async (userData) => {
       if (!userData) {
         isAuthorized.value = false
@@ -31,15 +31,15 @@ export const useUserStore = defineStore('userStore', () => {
   function setUserId(data: string | undefined): void {
     userId.value = data
   }
-  async function fetchUser() {
+  async function fetchUser(): Promise<unknown> {
     return authService.fetchUser()
   }
 
-  async function saveImage(imageData: ImageInfo) {
+  async function saveImage(imageData: ImageInfo): Promise<void> {
     await imageService.save(imageData)
   }
 
-  async function getImages() {
+  async function getImages(): Promise<void> {
     const result = await imageService.load()
     onValue(result, (snap) => {
       if (snap.val() !== null) {
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('userStore', () => {
     })
   }
 
-  async function deleteImage(userID: number) {
+  async function deleteImage(userID: number): Promise<void> {
     await imageService.delete(userID)
   }
 

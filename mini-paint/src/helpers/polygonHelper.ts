@@ -5,7 +5,7 @@ export const polygon = (
   coordinates: FigureCoordinates,
   isFilled: boolean,
   vertexAmount: number
-) => {
+): void => {
   const centerX = (coordinates.startX + coordinates.endX) / 2
   const centerY = (coordinates.startY + coordinates.endY) / 2
 

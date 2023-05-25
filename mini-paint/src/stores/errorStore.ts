@@ -5,7 +5,7 @@ export const useErrorStore = defineStore('errorStore', () => {
   const errorMessage = ref('')
   const errorToastStatus = ref(false)
 
-  function showErrorToast(message: string) {
+  function showErrorToast(message: string): void {
     errorMessage.value = message
     errorToastStatus.value = true
     setTimeout(() => {

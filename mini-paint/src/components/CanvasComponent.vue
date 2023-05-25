@@ -171,9 +171,6 @@ onMounted(() => {
   initializeCanvas()
   stopDrawing()
   resizeCanvas()
-})
-
-onMounted(() => {
   window.addEventListener('resize', resizeCanvas)
 })
 

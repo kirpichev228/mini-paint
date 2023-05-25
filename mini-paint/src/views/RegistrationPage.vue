@@ -55,11 +55,11 @@ const registrationForm: RegisterForm = reactive({
   confirm: ''
 })
 
-const isPassIncorrect = computed(
-  (): boolean => registrationForm.confirm !== registrationForm.password
+const isPassIncorrect = computed<boolean>(
+  () => registrationForm.confirm !== registrationForm.password
 )
 
-const register = async () => {
+const register = async (): Promise<void> => {
   try {
     loaderStore.setLoaderStatus()
     await authStore.registration(registrationForm.email, registrationForm.password)

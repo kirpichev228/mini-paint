@@ -6,7 +6,7 @@
       <Transition name="modal">
         <ThemeModal v-if="modalStatus" />
       </Transition>
-      <ButtonSample @click="loadImage" v-if="authStatus"
+      <ButtonSample @click="loadImage" v-if="authStatus && $route.path === '/draw'"
         >Open File</ButtonSample
       >
       <RouterLink class="link" v-if="userStore.isAuthorized" to="/">
@@ -46,7 +46,9 @@ const loaderStore = useLoaderStore()
 const canvasStore = useCanvasStore()
 
 const modalStatus = ref(false)
-const authStatus = computed(() => userStore.isAuthorized)
+const authStatus = computed<boolean>(
+  () => userStore.isAuthorized
+)
 
 const logOut = async () => {
   try {

@@ -4,7 +4,7 @@ import { ref } from 'vue'
 export const useLoaderStore = defineStore('loaderStore', () => {
   const isLoaderVisible = ref(false)
 
-  function setLoaderStatus() {
+  function setLoaderStatus(): void {
     isLoaderVisible.value = !isLoaderVisible.value
   }
 

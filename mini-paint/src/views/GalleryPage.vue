@@ -45,28 +45,35 @@ import { useUserStore } from '@/stores/userStore'
 import { useErrorStore } from '@/stores/errorStore'
 import { useLoaderStore } from '@/stores/loaderStore'
 import ImageZoom from '@/components/ImageZoom.vue'
+import type { ImageInfo } from '@/types'
 
 const userStore = useUserStore()
 const errorStore = useErrorStore()
 const loaderStore = useLoaderStore()
 
-const imageList = computed(() => userStore.images)
+const imageList = computed<ImageInfo[] | undefined>(
+  () => userStore.images
+)
 
 const selectedUser = ref('')
 
-const usersList = computed(() => [...new Set(imageList.value?.map((obj) => obj.username))])
-const filteredImageList = computed(() => {
-  if (!selectedUser.value) {
-    return imageList.value || []
+const usersList = computed<string[]>(
+  () => [...new Set(imageList.value?.map((obj) => obj.username))]
+)
+const filteredImageList = computed<ImageInfo[]>(
+  () => {
+    if (!selectedUser.value) {
+      return imageList.value || []
+    }
+    return (imageList.value || []).filter((image) => image.username === selectedUser.value)
   }
-  return (imageList.value || []).filter((image) => image.username === selectedUser.value)
-})
+)
 
-const filterUsers = () => {
+const filterUsers = (): void => {
   filteredImageList.value
 }
 
-const getImages = async () => {
+const getImages = async (): Promise<void> => {
   try {
     loaderStore.setLoaderStatus()
     await userStore.getImages()
@@ -75,7 +82,7 @@ const getImages = async () => {
   }
 }
 
-const deleteImage = async (userID: number) => {
+const deleteImage = async (userID: number): Promise<void> => {
   try {
     await userStore.deleteImage(userID)
   } catch (error: unknown) {
@@ -90,8 +97,8 @@ const selectedImg = reactive({
   imgUrl: ''
 })
 
-const setZoom = (url: string) => {
-  ;(selectedImg.isVisible = true), (selectedImg.imgUrl = url)
+const setZoom = (url: string): void => {
+  (selectedImg.isVisible = true), (selectedImg.imgUrl = url)
 }
 
 onMounted(() => {

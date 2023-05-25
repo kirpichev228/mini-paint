@@ -4,7 +4,7 @@ export const rectangle = (
   ctx: CanvasRenderingContext2D,
   coordinates: FigureCoordinates,
   isFilled: boolean
-) => {
+): void => {
   ctx.strokeRect(
     coordinates.startX,
     coordinates.startY,

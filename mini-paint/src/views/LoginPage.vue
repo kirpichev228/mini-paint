@@ -40,7 +40,7 @@ const loginForm: LoginForm = reactive({
   password: ''
 })
 
-const login = async () => {
+const login = async (): Promise<void> => {
   try {
     loaderStore.setLoaderStatus()
     await authStore.login(loginForm.email, loginForm.password)

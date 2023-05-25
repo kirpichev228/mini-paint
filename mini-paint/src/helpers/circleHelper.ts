@@ -4,7 +4,7 @@ export const circle = (
   ctx: CanvasRenderingContext2D,
   coordinates: FigureCoordinates,
   isFilled: boolean
-) => {
+): void => {
   const centerX = (coordinates.startX + coordinates.endX) / 2
   const centerY = (coordinates.startY + coordinates.endY) / 2
 
