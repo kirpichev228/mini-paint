@@ -27,6 +27,8 @@ const { saveCanvasState, setCanvas, clearCanvasState } = useCanvasStore()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const canvasOverlay = ref<HTMLCanvasElement | null>(null)
+const ctx = ref<CanvasRenderingContext2D | null | undefined>(null)
+const ctxO = ref<CanvasRenderingContext2D | null | undefined>(null)
 const isDrawing = ref(false)
 const startX = ref(0)
 const startY = ref(0)
@@ -40,12 +42,11 @@ const initializeCanvas = () => {
   if (!canvasOverlay.value) {
     return
   }
-  const ctxO = canvasOverlay.value.getContext('2d')
-  if (ctxO) {
-    ctxO.lineWidth = brushThickness.value
-    ctxO.lineCap = 'round'
-    ctxO.strokeStyle = pickedColor.value
-    ctxO.fillStyle = pickedColor.value
+  if (ctxO.value) {
+    ctxO.value.lineWidth = brushThickness.value
+    ctxO.value.lineCap = 'round'
+    ctxO.value.strokeStyle = pickedColor.value
+    ctxO.value.fillStyle = pickedColor.value
   }
 }
 
@@ -65,12 +66,11 @@ const drawCurve = (event: MouseEvent) => {
     return
   }
 
-  const ctxO = canvasOverlay.value.getContext('2d')
-  if (ctxO) {
-    ctxO.beginPath()
-    ctxO.moveTo(startX.value, startY.value)
-    ctxO.lineTo(event.offsetX, event.offsetY)
-    ctxO.stroke()
+  if (ctxO.value) {
+    ctxO.value.beginPath()
+    ctxO.value.moveTo(startX.value, startY.value)
+    ctxO.value.lineTo(event.offsetX, event.offsetY)
+    ctxO.value.stroke()
 
     startX.value = event.offsetX
     startY.value = event.offsetY
@@ -78,12 +78,9 @@ const drawCurve = (event: MouseEvent) => {
 }
 
 const stopDrawing = () => {
-  const ctx = canvas.value?.getContext('2d')
-  const ctxO = canvasOverlay.value?.getContext('2d')
-
-  if (ctx && ctxO && canvasOverlay.value) {
-    ctx.drawImage(ctxO.canvas, 0, 0)
-    ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
+  if (ctx.value && ctxO.value && canvasOverlay.value) {
+    ctx.value.drawImage(ctxO.value.canvas, 0, 0)
+    ctxO.value.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
   }
   saveCanvasState(canvas.value)
   setCanvas(canvas.value)
@@ -95,9 +92,8 @@ const figureDraw = (event: MouseEvent) => {
     return
   }
 
-  const ctxO = canvasOverlay.value.getContext('2d')
-  if (ctxO) {
-    ctxO.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
+  if (ctxO.value) {
+    ctxO.value.clearRect(0, 0, canvasOverlay.value.width, canvasOverlay.value.height)
     endX.value = event.offsetX
     endY.value = event.offsetY
 
@@ -110,25 +106,25 @@ const figureDraw = (event: MouseEvent) => {
 
     switch (choosenFigure.value) {
       case 'rectangle':
-        rectangle(ctxO, coordinates, isFigureFilled.value)
+        rectangle(ctxO.value, coordinates, isFigureFilled.value)
         break
       case 'circle':
-        circle(ctxO, coordinates, isFigureFilled.value)
+        circle(ctxO.value, coordinates, isFigureFilled.value)
         break
       case 'line':
-        line(ctxO, coordinates)
+        line(ctxO.value, coordinates)
         break
       case 'polygon':
-        polygon(ctxO, coordinates, isFigureFilled.value, polygonVertex.value)
+        polygon(ctxO.value, coordinates, isFigureFilled.value, polygonVertex.value)
         break
       case 'square':
-        polygon(ctxO, coordinates, isFigureFilled.value, 4)
+        polygon(ctxO.value, coordinates, isFigureFilled.value, 4)
         break
       case 'triangle':
-        polygon(ctxO, coordinates, isFigureFilled.value, 3)
+        polygon(ctxO.value, coordinates, isFigureFilled.value, 3)
         break
       case 'star':
-        star(ctxO, coordinates, isFigureFilled.value, starVertex.value)
+        star(ctxO.value, coordinates, isFigureFilled.value, starVertex.value)
         break
       default:
         stopDrawing()
@@ -168,6 +164,8 @@ const resizeCanvas = () => {
 }
 
 onMounted(() => {
+  ctxO.value = canvasOverlay.value?.getContext('2d')
+  ctx.value = canvas.value?.getContext('2d')
   initializeCanvas()
   stopDrawing()
   resizeCanvas()
