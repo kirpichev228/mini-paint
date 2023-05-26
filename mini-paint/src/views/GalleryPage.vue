@@ -1,5 +1,5 @@
 <template>
-  <main class="gallery-wrapper">
+  <section class="gallery-wrapper">
     <Transition name="zoom">
       <ImageZoom
         :imgURL="selectedImg.imgUrl"
@@ -36,7 +36,7 @@
         </div>
       </TransitionGroup>
     </div>
-  </main>
+  </section>
 </template>
 
 <script setup lang="ts">

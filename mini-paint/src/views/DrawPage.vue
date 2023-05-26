@@ -1,8 +1,8 @@
 <template>
-  <main class="wrapper">
+  <section class="wrapper">
     <SideBar />
     <CanvasComponent />
-  </main>
+  </section>
 </template>
 
 <script setup lang="ts">

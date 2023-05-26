@@ -16,10 +16,12 @@ onMounted(() => {
 <template>
   <div class="app-wrapper">
     <NavBar />
-    <RouterView />
-    <Transition name="error">
-      <ErrorToast v-if="errorStore.errorToastStatus" />
-    </Transition>
+    <main>
+      <RouterView />
+      <Transition name="error">
+        <ErrorToast v-if="errorStore.errorToastStatus" />
+      </Transition>
+    </main>
   </div>
 </template>
 
@@ -51,6 +53,10 @@ onMounted(() => {
   flex-direction: column;
   gap: var(--gap);
   overflow: hidden;
+}
+
+main {
+  height: 90vh;
 }
 
 .error-enter-active,
