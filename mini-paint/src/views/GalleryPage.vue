@@ -3,6 +3,7 @@
     <Transition name="zoom">
       <ImageZoom
         :imgURL="selectedImg.imgUrl"
+        :imgName="selectedImg.imageName"
         v-if="selectedImg.isVisible"
         @zoomOut="selectedImg.isVisible = false"
       />
@@ -31,8 +32,11 @@
           <img
             :src="image.imageURL"
             :alt="image.username"
-            @click="setZoom(String(image.imageURL))"
+            @click="setZoom(String(image.imageURL), image.itemName)"
           />
+          <h5>
+            {{ image.itemName }}
+          </h5>
         </div>
       </TransitionGroup>
     </div>
@@ -94,11 +98,13 @@ const deleteImage = async (userID: number): Promise<void> => {
 
 const selectedImg = reactive({
   isVisible: false,
-  imgUrl: ''
+  imgUrl: '',
+  imageName: ''
 })
 
-const setZoom = (url: string): void => {
-  (selectedImg.isVisible = true), (selectedImg.imgUrl = url)
+const setZoom = (url: string, name: string): void => {
+  (selectedImg.isVisible = true), (selectedImg.imgUrl = url),
+  selectedImg.imageName = name
 }
 
 onMounted(() => {

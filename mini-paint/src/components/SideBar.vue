@@ -5,8 +5,13 @@
     <CustomColor />
     <FiguresBar />
     <ButtonSample @click="clearCanvas"> Clear area </ButtonSample>
-    <ButtonSample :disabled="buttonDisable" @click="saveImageInGallery"> Save in gallery </ButtonSample>
+    <ButtonSample @click="saveModalVisible = true"> Save in gallery </ButtonSample>
     <ButtonSample @click="loadCanvasState">Undo</ButtonSample>
+    <SaveModal 
+      v-if="saveModalVisible" 
+      @save="(name) => saveImageInGallery(name)"
+      :disability="buttonDisable"
+      />
   </aside>
 </template>
 
@@ -15,6 +20,7 @@ import { ref } from 'vue'
 import ColorsBar from '@/components/ColorsBar.vue'
 import FiguresBar from '@/components/FiguresBar.vue'
 import BrushRange from '@/components/UI/BrushRange.vue'
+import SaveModal from './UI/SaveModal.vue'
 import CustomColor from './UI/CustomColor.vue'
 import ButtonSample from './UI/ButtonSample.vue'
 import { useCanvasStore } from '@/stores/canvasStore'
@@ -31,25 +37,30 @@ const { setLoaderStatus } = useLoaderStore()
 const { showErrorToast } = useErrorStore()
 
 const buttonDisable = ref(false)
+const saveModalVisible = ref(false)
 
-const saveImageInGallery = async () => {
+const saveImageInGallery = async (name: string) => {
   const imageData: ImageInfo = {
     username: user.value.email,
     imageURL: saveCanvas(),
-    itemID: new Date().getTime()
+    itemID: new Date().getTime(),
+    itemName: name
   }
 
   try {
     buttonDisable.value = true
     setLoaderStatus()
     await saveImage(imageData)
+    saveModalVisible.value = false
   } catch (error: unknown) {
     showErrorToast(String(error))
   } finally {
     setLoaderStatus()
     buttonDisable.value = false
+    saveModalVisible.value = false
   }
 }
+
 </script>
 
 <style scoped>

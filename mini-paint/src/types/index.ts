@@ -14,4 +14,5 @@ export interface ImageInfo {
   username: string
   imageURL: string | undefined
   itemID: number
+  itemName: string
 }
