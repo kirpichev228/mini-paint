@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-wrapper">
+  <div class="modal-wrapper" @click="handleClickOutside">
     <form class="modal-window" @submit.prevent="savePic">
       <InputSample
         type="text"
@@ -27,12 +27,18 @@ defineProps({
     defalult: false
   }
 })
-const emit = defineEmits(['save'])
+const emit = defineEmits(['save', 'close'])
 
 const picName = ref('')
 
 const savePic = () => {
   emit('save', picName.value)
+}
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (event.target instanceof HTMLElement && event.target.classList.contains('modal-wrapper')) {
+    emit('close')
+  }
 }
 </script>
 

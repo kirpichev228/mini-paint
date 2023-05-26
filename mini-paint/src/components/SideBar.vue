@@ -10,6 +10,7 @@
     <SaveModal 
       v-if="saveModalVisible" 
       @save="(name) => saveImageInGallery(name)"
+      @close="saveModalVisible = false"
       :disability="buttonDisable"
       />
   </aside>
